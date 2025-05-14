@@ -183,6 +183,7 @@ END_BLOCK;
 //PHPブロック終了
 ?>
 <!-- コンテンツ　-->
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" >
 <div class="contents">
 <h5><strong>メンバー一覧</strong></h5>
 <form name="form1" action="<?= $this->get_tgt_uri(); ?>" method="post" >
