@@ -1,72 +1,9 @@
 @charset "UTF-8";
-/* CSS ドキュメント */
-
-.bi {
-  display: inline-block;
-  width: 1rem;
-  height: 1rem;
-  background: #000080;
-}
-
-/*
- * Sidebar
- */
-
-.sidebar .nav-link {
-  font-size: .875rem;
-  font-weight: 500;
-}
-
-.sidebar .nav-link.active {
-  color: #2470dc;
-}
-
-.sidebar-heading {
-  font-size: .75rem;
-}
-
-/*
- * Navbar
- */
-
-.navbar-brand {
-  padding-top: .75rem;
-  padding-bottom: .75rem;
-}
 
 
 
-.b-divider {
-	width: 100%;
-	height: 3rem;
-	background-color: rgba(0, 0, 0, .1);
-	border: solid rgba(0, 0, 0, .15);
-	border-width: 1px 0;
-	box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
-}
 
-.contents {
-    flex: 1 0 0%;
-    padding: 2rem 1.5rem;
-}
-
-.table-bordered td,
-.table-bordered th {
-	vertical-align: middle !important;
-}
-.table-bordered th {
-    background: #CDDAE5;
-}
-
-.table td,
-.table th,
-.form-control,
-.form-check-input,
-.form-select {
-    border: 1px solid rgba(0,0,0,0.7);
-}
-
-.header {
+.thead {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -78,8 +15,14 @@
   font-size: 24px;
 }
 
-/* ここから下がハンバーガーメニューに関するCSS */
+/*//////////////////////////////////////////////////// ここから下がハンバーガーメニューに関するCSS ///////////////////////////*/
   
+.nav{
+  height: 60px;
+  width: 60px;
+}
+
+
 /* チェックボックスを非表示にする */
 .drawer_hidden {
   display: none;
@@ -158,3 +101,64 @@
 #drawer_input:checked ~ .nav_content {
   left: 0;/* メニューを画面に入れる */
 }
+
+
+/*/////////////////////////////////////////////// 検索バー部分//////////////////////////////////////////////////*/
+
+
+.search-form-5 {
+  margin-left: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px; /* 任意の幅に調整してください */
+    overflow: hidden;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+}
+
+.search-form-5 input {
+    height: 45px;
+    padding: 5px 15px;
+    border: none;
+    box-sizing: border-box;
+    background-color: #f2f2f2;
+    font-size: 1em;
+    outline: none;
+}
+
+.search-form-5 input::placeholder {
+    color: #777777;
+}
+
+.search-form-5 button {
+  width: 50px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+    
+}
+
+.search-form-5 button::after {
+    width: 100px;
+    height: 100px;
+    
+    background-repeat: no-repeat;
+    content: '';
+}
+
+.aikon{
+  margin-left: 1200px;
+}
+
+.settei{
+  margin-left: 1400px;
+  margin-top: 0px;
+}
+
+
+
