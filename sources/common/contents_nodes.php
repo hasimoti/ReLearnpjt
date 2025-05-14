@@ -59,8 +59,8 @@ class cheader extends cnode {
 	</form>
 <!--アイコン部分-->
 	<div class="aikon">
-	<button type="submit" aria-label="aikon"><img src="img/images.png" width="30" ></button>
-		<a href="prefecture_list.php" class="nav-link link-success"></a>
+	<button type="submit" aria-label="aikon" href="prefecture_list.php" class="nav-link link-success"><img src="img/images.png" width="30" ></button>
+		
 	</div>
 
 	<!--設定部分-->
