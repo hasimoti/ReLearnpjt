@@ -60,12 +60,11 @@ class cheader extends cnode {
 <!--アイコン部分-->
 	<div class="aikon">
 	<a href="prefecture_list.php" class="nav-link link-success"><img src="img/images.png" width="30" ></a>
-		
 	</div>
 
 	<!--設定部分-->
 	<div class="settei">
-		<img src="img/settei.png" width="40" >
+		<a href="member_list.php" class="nav-link link-success"><img src="img/settei.png" width="30" ></a>
 	</div>
 
 </head>
