@@ -36,6 +36,9 @@ class cheader extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	public function display(){
+
+
+
 		$echo_str = <<< END_BLOCK
 
 <!doctype html>
@@ -66,7 +69,7 @@ class cheader extends cnode {
 	<div class="settei">
 		<a href="member_list.php" class="nav-link link-success"><img src="img/settei.png" width="30" ></a>
 	</div>
-
+<!--aaaaa-->
 </head>
 <body>
 <!-- 全体コンテナ　-->
