@@ -50,26 +50,20 @@ class cheader extends cnode {
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="css/style.css">
 
-    
-      
+    <div class="header">
 
-     <!-- 検索バー部分-->
-	 <form action="#" class="search-form-5">
-		<label>
-			<input type="text" placeholder="キーワードを入力">
-		</label>
-		<button type="submit" aria-label="検索"><img src="img/icon_108190_256.png" width="40" ></button>
-	</form>
-<!--アイコン部分-->
-	<div class="aikon">
-	<a href="prefecture_list.php" class="nav-link link-success"><img src="img/images.png" width="30" ></a>
-	</div>
 
-	<!--設定部分-->
-	<div class="settei">
-		<a href="member_list.php" class="nav-link link-success"><img src="img/settei.png" width="30" ></a>
-	</div>
-<!--aaaaa-->
+    <form class="search-bar" action="search.html" method="GET">
+      <input type="text" name="q" placeholder="Hinted search text" required />
+      <button type="submit" class="search-icon">🔍</button>
+    </form>
+    <button class="login-button">ログイン</button>
+    <a href="profile.html" class="icon profile-icon">👤</a>
+    <a href="settings.html" class="icon settings-icon">⚙️</a>
+  </div>
+
+
+
 </head>
 <body>
 <!-- 全体コンテナ　-->
