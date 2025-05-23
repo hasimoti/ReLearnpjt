@@ -57,7 +57,8 @@ class cheader extends cnode {
       <input type="text" name="q" placeholder="Hinted search text" required />
       <button type="submit" class="search-icon">🔍</button>
     </form>
-    <button class="login-button">ログイン</button>
+    
+	<a href="common/login.php" class="login-button">ログイン</a>
     <a href="profile.html" class="icon profile-icon">👤</a>
     <a href="settings.html" class="icon settings-icon">⚙️</a>
   </div>

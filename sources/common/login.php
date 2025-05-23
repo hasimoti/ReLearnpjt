@@ -1,0 +1,46 @@
+<?php
+// セッション開始
+session_start();
+
+// ログイン処理（例：POST送信時）
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
+    // ここで認証処理（例：DB照合など）を行う
+    // 仮の認証例
+    if ($username === 'admin' && $password === 'password') {
+        $_SESSION['user'] = $username;
+        header('Location: index.php');
+        exit;
+    } else {
+        $error = 'ユーザー名またはパスワードが違います';
+    }
+}
+?>
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>ログイン</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>ログイン</h2>
+    <?php if (!empty($error)): ?>
+        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
+    <?php endif; ?>
+    <form method="post">
+        <div class="mb-3">
+            <label for="username" class="form-label">ユーザー名</label>
+            <input type="text" class="form-control" id="username" name="username" required autofocus>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">パスワード</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">ログイン</button>
+    </form>
+</div>
+</body>
+</html>
