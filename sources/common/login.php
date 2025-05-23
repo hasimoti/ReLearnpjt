@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
 <div class="container mt-5">
-    <h2>ログイン</h2>
+    <h2>ログイン<img src="../img/logo.png" alt="サンプル画像" width="38" height="38"></h2>
     <?php if (!empty($error)): ?>
         <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
@@ -42,5 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" class="btn btn-primary">ログイン</button>
     </form>
 </div>
+
 </body>
 </html>
