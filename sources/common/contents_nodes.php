@@ -58,9 +58,8 @@ class cheader extends cnode {
       <button type="submit" class="search-icon">🔍</button>
     </form>
     
-	<a href="common/login.php" class="login-button">ログイン</a>
-    <a href="profile.html" class="icon profile-icon">👤</a>
-    <a href="settings.html" class="icon settings-icon">⚙️</a>
+	<a href="common/login.php" class="logo-button">ロゴ</a>
+    <a href="common/login.php" class="icon profile-icon">👤</a>
   </div>
 
 
