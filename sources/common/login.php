@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 仮の認証例
     if ($username === 'admin' && $password === 'password') {
         $_SESSION['user'] = $username;
-        header('Location: contents_nodes.php');
+        header('Location: /sources/index.php'); // ログイン成功時のリダイレクト先
         exit;
     } else {
         $error = 'ユーザー名またはパスワードが違います';
