@@ -36,11 +36,9 @@ class cheader extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	public function display(){
-
-
-
 		$echo_str = <<< END_BLOCK
 
+<
 <!doctype html>
 <html lang="ja">
 <head>
@@ -130,7 +128,6 @@ class cside_header extends cnode {
 <div class="container-fluid">
 <header class="navbar sticky-top bg-secondary-subtle flex-md-nowrap p-0 shadow" >
 <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-dark" href="#">サイト名</a>
-
 </header>
 	<!-- 行　-->
 	<div class="row">
