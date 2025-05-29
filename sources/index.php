@@ -45,22 +45,10 @@ class cmain_node extends cnode {
 <h5><strong>メインメニュー</strong></h5>
 <table class="table table-bordered">
 <thead>
-<tr>
-</tr>
+
 </thead>
 <tbody>
-<tr>
-<td><a href="prefecture_list.php" class="nav-link link-success">都道府県管理</a></td>
-</tr>
-<tr>
-<td><a href="member_list.php" class="nav-link link-success">メンバー管理</a></td>
-</tr>
-<tr>
-<td><a href="member_list_custom.php" class="nav-link link-success">メンバー管理（カスタムノード）</a></td>
-</tr>
-<tr>
-<td><a href="hinagata.php" class="nav-link link-success">雛形ファイル</a></td>
-</tr>
+
 </tbody>
 </table>
 </div>

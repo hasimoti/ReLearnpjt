@@ -184,20 +184,28 @@ END_BLOCK;
 ?>
 <!-- コンテンツ　-->
 <div class="contents">
-<h5><strong>メンバー一覧</strong></h5>
-<form name="form1" action="<?= $this->get_tgt_uri(); ?>" method="post" >
-<p><a href="member_detail.php">新規</a></p>
-<p><?= $this->get_page_block(); ?></p>
-<table class="table table-bordered">
-<tr>
-<th class="text-center">メンバーID</th>
-<th class="text-center">メンバー名</th>
-<th class="text-center">操作</th>
-</tr>
-<?= $this->get_member_rows(); ?>
-</table>
-<input type="hidden" name="func" value="" >
-<input type="hidden" name="param" value="" >
+<form id="loginForm" name="loginForm" action="" method="POST">
+   <?php
+       foreach($errors as $error){
+           print "<p class='error'>";
+           print $error."<br>";
+           print "</p>";
+       }
+   ?>
+   
+   <div>
+       <label for="mail">メールアドレス
+       <input type="text" id="mail" name="mail" placeholder="メールアドレスを入力" value="<?php if (!empty($_POST["mail"])) {echo htmlspecialchars($_POST["mail"], ENT_QUOTES);} ?>">
+       </label>
+   </div>
+   
+   <div>
+       <label for="password">パスワード
+       <input type="password" id="password" name="password" value="" placeholder="パスワードを入力">
+       </label>
+   </div>
+   
+   <input type="submit" id="login" name="login" value="ログイン">
 </form>
 </div>
 <!-- /コンテンツ　-->

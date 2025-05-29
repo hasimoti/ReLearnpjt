@@ -13,11 +13,11 @@ define('DB_MYSQL_SET_NAMES','1');
 //ホスト(ローカルの場合は'localhost'と記述)
 define('DB_HOST','localhost');
 //ユーザー
-define('DB_USER','j2025bdb');
+define('DB_USER','root');
 //パスワード
-define('DB_PASS','9yafMZ9YCfg1S16k!');
+define('DB_PASS','password');
 //DB名
-define('DB_NAME','j2025bdb');
+define('DB_NAME','phpbase2');
 //DBのキャラセット
 define('DB_CHARSET','utf8');
 //PHPのキャラセット
