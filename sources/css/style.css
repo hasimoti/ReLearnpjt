@@ -122,61 +122,6 @@
 /*/////////////////////////////////////////////// 検索バー部分//////////////////////////////////////////////////*/
 
 
-.search-form-5 {
-  margin-left: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 250px; /* 任意の幅に調整してください */
-    overflow: hidden;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-}
-
-.search-form-5 input {
-    height: 45px;
-    padding: 5px 15px;
-    border: none;
-    box-sizing: border-box;
-    background-color: #f2f2f2;
-    font-size: 1em;
-    outline: none;
-}
-
-.search-form-5 input::placeholder {
-    color: #777777;
-}
-
-.search-form-5 button {
-  width: 50px;
-  height: 45px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-    
-}
-
-.search-form-5 button::after {
-    width: 100px;
-    height: 100px;
-    
-    background-repeat: no-repeat;
-    content: '';
-}
-
-
-
-
-
-
-
-
-
-
-
 
 .search-box {
     display: flex;
