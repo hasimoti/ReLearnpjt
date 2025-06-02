@@ -185,10 +185,13 @@ class cfooter extends cnode {
 	//--------------------------------------------------------------------------------------
 	public function display(){
 		$echo_str = <<< END_BLOCK
-
+                                                             <!-- フッターここだよ -->
 <footer class="py-3 my-4 border-dark border-top">
-<p class="text-center text-body-secondary">&copy; 2024 PHPBase2</p>
+	<p class="text-center text-body-secondary">利用規約</p>
+	<p class="text-center text-body-secondary">プライバシーポリシー</p>
+	<p class="text-center text-body-secondary">会社概要</p>
 </footer>
+
 </div>
 <!-- /全体コンテナ　-->
 <div class="b-divider"></div>
