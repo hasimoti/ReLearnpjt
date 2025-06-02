@@ -172,3 +172,41 @@
 
 
 
+
+
+
+
+
+
+.search-box {
+    display: flex;
+    width: 100%;
+}
+
+.search-box input[type="text"] {
+    flex-grow: 1;
+    padding: 0.7rem 0 0.7rem 0.8rem;
+    border: 1px solid #333947;
+    border-radius: 1.5rem 0 0 1.5rem;
+}
+
+.search-box button {
+    cursor: pointer;
+    padding: .8rem .9rem .8rem .8rem;
+    border-radius: 0 1.5rem 1.5rem 0;
+    border: none;
+    background-color: #333947;
+    color: #fff;
+    font-size: .75rem;
+}
+
+.search-box input:focus {
+    outline: 0;
+    border: 1px solid #4ab6f6;
+}
+
+.search-box button:hover {
+    color: #4ab6f6;
+}
+
+

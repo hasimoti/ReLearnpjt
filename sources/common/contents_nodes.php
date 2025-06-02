@@ -53,11 +53,17 @@ class cheader extends cnode {
     <div class="header">
 
 
-    <form class="search-bar" action="search.html" method="GET">
-      <input type="text" name="q" placeholder="Hinted search text" required />
-      <button type="submit" class="search-icon">🔍</button>
-    </form>
-    
+   
+
+	<form class="search-bar" action="search.html" method="GET">
+		<div class="search-box">
+		<input type="text" placeholder="検索ワード">
+		<button type="submit">
+			<i class="fas fa-search fa-fw">🔍</i>
+		</button>
+	</form>
+
+</div>
 	<a href="common/login.php" class="logo-button">ロゴ</a>
     <a href="common/login.php" class="icon profile-icon">👤</a>
   </div>
@@ -134,49 +140,7 @@ class cside_header extends cnode {
 </header>
 	<!-- 行　-->
 	<div class="row">
-		<div class="sidebar border col-md-3 col-lg-2 p-1 bg-body-tertiary">
-			<ul class="nav flex-column">
-				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="index.php">
-						<span class="bi"></span>
-						メインメニュー
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="prefecture_list.php">
-						<span class="bi"></span>
-						都道府県管理
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="member_list.php">
-						<span class="bi"></span>
-						メンバー管理
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="member_list_custom.php">
-						<span class="bi"></span>
-						メンバー管理（カスタムノード）
-					</a>
-				</li>
-			</ul>
-			<hr class="my-1">
-			<ul class="nav flex-column mb-auto">
-				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="hinagata.php">
-						<span class="bi"></span>
-						雛形ファイル
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link d-flex align-items-center gap-2" href="hinagata2.php">
-						<span class="bi"></span>
-						雛形ファイル（サイドバー付き）
-					</a>
-				</li>
-			</ul>
-		</div>
+		
 END_BLOCK;
 		echo $echo_str;
 	}
