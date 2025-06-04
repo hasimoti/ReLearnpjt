@@ -66,6 +66,7 @@ class cheader extends cnode {
 </div>
 	<a href="common/login.php" class="logo-button">ロゴ</a>
     <a href="common/login.php" class="icon profile-icon">👤</a>
+	<a href="member_detail.php" class="icon profile-icon">👹</a>
   </div>
 
 
@@ -75,16 +76,6 @@ class cheader extends cnode {
 <!-- 全体コンテナ -->
 <div class="container">
 
-<div class="Thumbnails">
-	<div class="Thumbnail1">
-			<img src="./img/サムネサンプル.jpg" width="400px" >
-			<img src="./img/サムネ２.jpg" width="400px" >
-	</div>
-	<div class="Thumbnail2">
-			<a href="./member_detail.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
-			<a href="./prefecture_detail.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
-	</div>
-</div>
 
 <!-- ページ遷移のやつ -->
 <div class="pagination" id="pagination">
