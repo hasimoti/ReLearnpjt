@@ -76,7 +76,7 @@ class cheader extends cnode {
 <div class="container">
 
 <div class="Thumbnail">
-		<img src="img/サムネサンプル.jpg" width="30" >
+		<img src="img/サムネサンプル.jpg" width="50px" >
 </div>
 
 
