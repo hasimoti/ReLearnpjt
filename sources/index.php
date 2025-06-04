@@ -55,7 +55,7 @@ class cmain_node extends cnode {
 			<img src="./img/サムネ２.jpg" width="400px" >
 	</div>
 	<div class="Thumbnail2">
-			<a href="./member_detail.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
+			<a href="./user/CourseDetails.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
 			<a href="./prefecture_detail.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
 	</div>
 </div>
