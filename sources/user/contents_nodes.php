@@ -72,9 +72,15 @@ class cheader extends cnode {
 
 </head>
 <body>
-<!-- 全体コンテナ　-->
+<!-- 全体コンテナ -->
 <div class="container">
 
+<div class="Thumbnail">
+		<img src="img/サムネサンプル.jpg" width="30" >
+</div>
+
+
+<!-- ページ遷移のやつ -->
 <div class="pagination" id="pagination">
   <!-- JavaScriptで描画されます -->
 </div>
