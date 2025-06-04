@@ -352,7 +352,7 @@ class caddress extends cnode {
 	public function paramchk(){
 		global $err_array;
 		global $err_flag;
-		if($this->param_arr['cntl_header_name'] == 'par' && $_POST['course_minor'] == 0 ){
+		if($this->param_arr['cntl_header_name'] == 'par' && $_POST['member_minor'] == 0 ){
 			//保護者は未成年の時だけ必須
 			return;
 		}

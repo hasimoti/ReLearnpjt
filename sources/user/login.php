@@ -1,20 +1,20 @@
 <?php
-// セッション開始
 session_start();
+$pdo = new PDO('mysql:host=localhost;dbname=login_db;charset=utf8', 'root', '');
 
-// ログイン処理（例：POST送信時）
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
-    // ここで認証処理（例：DB照合など）を行う
-    // 仮の認証例
-    if ($username === 'admin' && $password === 'password') {
-        $_SESSION['user'] = $username;
-        header('Location: /sources/index.php'); // ログイン成功時のリダイレクト先
-        exit;
-    } else {
-        $error = 'ユーザー名またはパスワードが違います';
-    }
+$email = $_POST['email'];
+$password = $_POST['password'];
+
+$stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+$stmt->execute([$email]);
+$user = $stmt->fetch();
+
+if ($user && password_verify($password, $user['password'])) {
+    $_SESSION['user_id'] = $user['id'];
+    echo "ログイン成功";
+    // 例：header("Location: /index.php");
+} else {
+    echo "ログイン失敗：メールかパスワードが違います";
 }
 ?>
 <!doctype html>

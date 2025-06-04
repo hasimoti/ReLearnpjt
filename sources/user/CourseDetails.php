@@ -1,6 +1,6 @@
 <?php
 /*!
-@file CourseDetails.php
+@file course_detail.php
 @brief メンバー詳細
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
@@ -51,7 +51,7 @@ class cmain_node extends cnode {
 	//--------------------------------------------------------------------------------------
 	public function post_default(){
 		cutil::post_default("course_name",'');
-		cutil::post_default("mcourse_prefecture_id",0);
+		cutil::post_default("course_prefecture_id",0);
 		cutil::post_default("course_address",'');
 		cutil::post_default("course_minor",0);
 		cutil::post_default("par_name",'');

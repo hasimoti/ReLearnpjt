@@ -24,5 +24,6 @@ define('DB_CHARSET','utf8');
 define('PHP_CHARSET','UTF-8');
 //暗号化のキー
 define('MY_AES_KEY','phpbase_key');
-
-
+ 
+ 
+ 
