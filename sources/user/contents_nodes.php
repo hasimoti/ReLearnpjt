@@ -75,10 +75,16 @@ class cheader extends cnode {
 <!-- 全体コンテナ -->
 <div class="container">
 
-<div class="Thumbnail">
-		<img src="../img/サムネサンプル.jpg" width="50px" >
+<div class="Thumbnails">
+	<div class="Thumbnail1">
+			<img src="./img/サムネサンプル.jpg" width="400px" >
+			<img src="./img/サムネ２.jpg" width="400px" >
+	</div>
+	<div class="Thumbnail2">
+			<img src="./img/サムネ２.jpg" width="400px" >	
+			<img src="./img/サムネ２.jpg" width="400px" >
+	</div>
 </div>
-
 
 <!-- ページ遷移のやつ -->
 <div class="pagination" id="pagination">

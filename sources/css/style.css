@@ -154,4 +154,15 @@
     color: #4ab6f6;
 }
 
+/*topのサムネたち*/
 
+.Thumbnails{
+margin-left: 15%;
+}
+
+
+
+/*ページ遷移のやつ*/
+.pagination{
+  margin-left: 40%;
+}
