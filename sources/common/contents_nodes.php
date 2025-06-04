@@ -75,8 +75,61 @@ class cheader extends cnode {
 <!-- 全体コンテナ　-->
 <div class="container">
 
+<div class="pagination" id="pagination">
+  <!-- JavaScriptで描画されます -->
+</div>
+<script>
+  const totalPages = 3;
+  let currentPage = 1;
 
+  function renderPagination() {
+    const container = document.getElementById('pagination');
+    container.innerHTML = '';
 
+    const createLink = (text, page, isDisabled = false) => {
+      const link = document.createElement('a');
+      link.textContent = text;
+      if (!isDisabled) {
+        link.addEventListener('click', () => {
+          currentPage = page;
+          renderPagination();
+        });
+      } else {
+        link.classList.add('disabled');
+      }
+      return link;
+    };
+
+    // ＜前
+    container.appendChild(createLink('＜前', currentPage - 1, currentPage === 1));
+    container.appendChild(createSeparator());
+
+    // ページ番号
+    for (let i = 1; i <= totalPages; i++) {
+      const link = createLink(i, i);
+      if (i === currentPage) {
+        link.classList.add('active');
+      }
+      container.appendChild(link);
+      if (i < totalPages) {
+        container.appendChild(createSeparator());
+      }
+    }
+
+    container.appendChild(createSeparator());
+    // 次＞
+    container.appendChild(createLink('次＞', currentPage + 1, currentPage === totalPages));
+  }
+
+  function createSeparator() {
+    const sep = document.createElement('span');
+    sep.className = 'separator';
+    sep.textContent = '|';
+    return sep;
+  }
+
+  renderPagination();
+</script>
 </header>
 END_BLOCK;
 		echo $echo_str;
