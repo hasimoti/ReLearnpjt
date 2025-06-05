@@ -5,11 +5,11 @@ $pdo = new PDO('mysql:host=localhost;dbname=j2025bdb;charset=utf8', 'j2025bdb', 
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'] ?? '';
+    $mail = $_POST['mail'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    $stmt = $pdo->prepare("SELECT * FROM admin_users WHERE username = ?");
-    $stmt->execute([$username]);
+    $stmt = $pdo->prepare("SELECT * FROM login WHERE mail = ?");
+    $stmt->execute([$mail]);
     $admin = $stmt->fetch();
 
     if ($admin && password_verify($password, $admin['password'])) {
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: admin_dashboard.php');
         exit;
     } else {
-        $error = 'ユーザー名またはパスワードが違います';
+        $error = 'メールアドレスまたはパスワードが違います';
     }
 }
 ?>
@@ -38,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
             <form method="post" class="mt-4">
                 <div class="mb-3">
-                    <label for="username" class="form-label">ユーザー名</label>
-                    <input type="text" class="form-control mx-auto" id="username" name="username" required autofocus maxlength="50" style="max-width:300px;">
+                    <label for="mail" class="form-label">メールアドレス</label>
+                    <input type="email" class="form-control mx-auto" id="mail" name="mail" required autofocus maxlength="255" style="max-width:300px;">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">パスワード</label>

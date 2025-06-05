@@ -1,8 +1,8 @@
 <?php
-<?php
+
 // テスト用のメールアドレスとパスワード
-$mail = 'yourmail@example.com';
-$password = 'adminpass';
+$mail = 'your_admin_mail@example.com'; // DBに登録したメールアドレス
+$password = 'adminpass';               // 平文パスワード
 
 // DB接続
 $pdo = new PDO('mysql:host=localhost;dbname=j2025bdb;charset=utf8', 'j2025bdb', '9yafMZ9YCfg1S16k!');
