@@ -81,8 +81,8 @@ class cheader extends cnode {
 			<img src="./img/サムネ２.jpg" width="400px" >
 	</div>
 	<div class="Thumbnail2">
-			<img src="./img/サムネ２.jpg" width="400px" >	
-			<img src="./img/サムネ２.jpg" width="400px" >
+			<a href="./member_detail.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
+			<a href="./prefecture_detail.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
 	</div>
 </div>
 
