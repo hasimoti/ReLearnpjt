@@ -20,6 +20,6 @@ require_once("node.php");
 require_once("contents_func.php");
 //コンテンツに合わせ定義されるもの
 require_once("contents_db.php");
-require_once("user/contents_nodes.php");
+require_once("contents_nodes.php");
 
 
