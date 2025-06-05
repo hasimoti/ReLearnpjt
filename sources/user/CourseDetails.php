@@ -487,9 +487,13 @@ END_BLOCK;
 <!-- コンテンツ　-->
 <div class="contents">
 <?= $this->get_err_flag(); ?>
-<h5><strong>メンバー詳細</strong></h5>
+<h5><strong>講座詳細</strong></h5>
 <form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
 <a href="member_list.php">一覧に戻る</a>
+
+<video controls width="640" height="360">
+  <source src="../mov/seikindance.mp4" poster=“サムネ２.jpg” type="video/mp4">
+</video>
 
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />
