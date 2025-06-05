@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mail = $_POST['mail'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    $stmt = $pdo->prepare("SELECT * FROM login WHERE mail = ?");
+    $stmt = $pdo->prepare("SELECT * FROM admin_login WHERE mail = ?");
     $stmt->execute([$mail]);
     $admin = $stmt->fetch();
 
