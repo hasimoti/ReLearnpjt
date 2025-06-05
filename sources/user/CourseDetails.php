@@ -490,48 +490,7 @@ END_BLOCK;
 <h5><strong>メンバー詳細</strong></h5>
 <form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
 <a href="member_list.php">一覧に戻る</a>
-<table class="table table-bordered">
-<tr>
-<th class="text-center">ID</th>
-<td width="70%"><?= $this->get_member_id_txt(); ?></td>
-</tr>
-<tr>
-<th class="text-center">メンバー名</th>
-<td width="70%"><?= $this->get_member_name(); ?></td>
-</tr>
-<tr>
-<th class="text-center">メンバー都道府県</th>
-<td width="70%"><?= $this->get_member_prefecture_select(); ?></td>
-</tr>
-<tr>
-<th class="text-center">メンバー市区郡町村以下</th>
-<td width="70%"><?= $this->get_member_address(); ?></td>
-</tr>
-<tr>
-<tr>
-<th class="text-center">好きな果物</th>
-<td width="70%"><?= $this->get_fruits_match_check(); ?></td>
-</tr>
-<th class="text-center">未成年かどうか</th>
-<td width="70%"><?= $this->get_member_minor_radio(); ?></td>
-</tr>
-<tr>
-<th class="text-center">保護者名</th>
-<td width="70%"><?= $this->get_par_name(); ?></td>
-</tr>
-<tr>
-<th class="text-center">保護者都道府県</th>
-<td width="70%"><?= $this->get_par_prefecture_select(); ?></td>
-</tr>
-<tr>
-<th class="text-center">保護者市区郡町村以下</th>
-<td width="70%"><?= $this->get_par_address(); ?></td>
-</tr>
-<tr>
-<th class="text-center">コメント</th>
-<td width="70%"><?= $this->get_member_comment(); ?></td>
-</tr>
-</table>
+
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />
 <input type="hidden" name="member_id" value="<?= $member_id; ?>" />

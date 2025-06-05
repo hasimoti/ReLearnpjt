@@ -186,6 +186,8 @@ END_BLOCK;
 <div class="contents">
 <form id="loginForm" name="loginForm" action="" method="POST">
    <?php
+   $errors = [];/////////////////////////////////////////////////////////これは消すかも
+
        foreach($errors as $error){
            print "<p class='error'>";
            print $error."<br>";

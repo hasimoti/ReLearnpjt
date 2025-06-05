@@ -8,7 +8,7 @@ $password = 'adminpass';               // 平文パスワード
 $pdo = new PDO('mysql:host=localhost;dbname=j2025bdb;charset=utf8', 'j2025bdb', '9yafMZ9YCfg1S16k!');
 
 // ユーザー取得
-$stmt = $pdo->prepare("SELECT * FROM login WHERE mail = ?");
+$stmt = $pdo->prepare("SELECT * FROM admin_login WHERE mail = ?");
 $stmt->execute([$mail]);
 $admin = $stmt->fetch();
 
