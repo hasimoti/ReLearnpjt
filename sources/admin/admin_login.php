@@ -1,6 +1,6 @@
 <?php
 session_start();
-$pdo = new PDO('mysql:host=localhost;dbname=login;charset=utf8', 'j2025bdb', '9yafMZ9YCfg1S16k!');
+$pdo = new PDO('mysql:host=localhost;dbname=j2025bdb;charset=utf8', 'j2025bdb','9yafMZ9YCfg1S16k!');
 
 $error = '';
 
