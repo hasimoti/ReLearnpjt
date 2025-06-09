@@ -60,6 +60,7 @@ class cheader extends cnode {
 		<input type="text" placeholder="検索ワード">
 		<button type="submit">
 			<i class="fas fa-search fa-fw">🔍</i>
+			<a href="../user/course_list.php">
 		</button>
 	</form>
 
