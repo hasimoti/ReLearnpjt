@@ -491,9 +491,8 @@ END_BLOCK;
 <form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
 <a href="member_list.php">一覧に戻る</a>
 
-<video controls width="640" height="360">
-  <source src="../mov/seikindance.mp4" poster=“サムネ２.jpg” type="video/mp4">
-</video>
+
+<iframe width="560" height="315" src="https://drive.google.com/file/d/1Hzq2woyQVI1kzC2YqCQPRbfnUqRiLCXP/preview" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />
