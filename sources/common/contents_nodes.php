@@ -55,7 +55,7 @@ class cheader extends cnode {
 
    
 
-	<form class="search-bar" action="search.html" method="GET">
+	<form class="search-bar" action="../user/course_list.php" method="GET">
 		<div class="search-box">
 		<input type="text" placeholder="検索ワード">
 		<button type="submit">

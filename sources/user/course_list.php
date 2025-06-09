@@ -1,7 +1,7 @@
 <?php
 /*!
 @file member_detail.php
-@brief 講座一覧
+@brief メンバー詳細
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
 
