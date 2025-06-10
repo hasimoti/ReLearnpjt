@@ -491,6 +491,72 @@ END_BLOCK;
 <form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
 <a href="member_list.php">一覧に戻る</a>
 
+<div class="Thumbnails">
+	<div class="Thumbnail1">
+			<a href="./user/course_list.php"><img src="../img/サムネサンプル.jpg" width="400px" >
+			<a href="./user/CourseDetails.php"> <img src="../img/サムネ２.jpg"  width="400px" ></a>
+	</div>
+	<div class="Thumbnail2">
+			<a href="./course_detail.php"> <img src="../img/サムネ２.jpg"  width="400px" ></a>
+			<a href="./prefecture_detail.php"> <img src="../img/サムネ２.jpg"  width="400px" ></a>
+	</div>
+</div>
+
+<div class="pagination" id="pagination">
+  <!-- JavaScriptで描画されます -->
+</div>
+<script>
+  const totalPages = 3;
+  let currentPage = 1;
+
+  function renderPagination() {
+    const container = document.getElementById('pagination');
+    container.innerHTML = '';
+
+    const createLink = (text, page, isDisabled = false) => {
+      const link = document.createElement('a');
+      link.textContent = text;
+      if (!isDisabled) {
+        link.addEventListener('click', () => {
+          currentPage = page;
+          renderPagination();
+        });
+      } else {
+        link.classList.add('disabled');
+      }
+      return link;
+    };
+
+    // ＜前
+    container.appendChild(createLink('＜前', currentPage - 1, currentPage === 1));
+    container.appendChild(createSeparator());
+
+    // ページ番号
+    for (let i = 1; i <= totalPages; i++) {
+      const link = createLink(i, i);
+      if (i === currentPage) {
+        link.classList.add('active');
+      }
+      container.appendChild(link);
+      if (i < totalPages) {
+        container.appendChild(createSeparator());
+      }
+    }
+
+    // ＞次
+    container.appendChild(createSeparator());
+    container.appendChild(createLink('次＞', currentPage + 1, currentPage === totalPages));
+  }
+
+  function createSeparator() {
+    const sep = document.createElement('span');
+    sep.className = 'separator';
+    sep.textContent = '|';
+    return sep;
+  }
+
+  renderPagination();
+</script>
 
 
 <input type="hidden" name="func" value="" />
