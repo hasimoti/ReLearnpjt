@@ -502,7 +502,7 @@ END_BLOCK;
 	</div>
 		<label class="timestamp"><p></p></label>
 		<label class="description"><p></p></label>
-		<a href="check_test.php">
+		<a href="check_test.php">確認テストはこちら</a>
 </div>
 
 <input type="hidden" name="func" value="" />
