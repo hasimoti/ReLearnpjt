@@ -485,6 +485,7 @@ END_BLOCK;
 //PHPブロック終了
 ?>
 <!-- コンテンツ　-->
+ <link rel="stylesheet" type="text/css" href="css/style.css">
 <div class="contents">
 <?= $this->get_err_flag(); ?>
 <h5><strong>講座詳細</strong></h5>
