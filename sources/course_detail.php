@@ -493,17 +493,52 @@ END_BLOCK;
 <a href="member_list.php">一覧に戻る</a>
 
 
-<iframe width="660" height="415" class="mov" src="https://drive.google.com/file/d/1Hzq2woyQVI1kzC2YqCQPRbfnUqRiLCXP/preview" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="660" height="415" id="videoFrame" class="mov" src="https://drive.google.com/file/d/1Hzq2woyQVI1kzC2YqCQPRbfnUqRiLCXP/preview" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 <div class="summary">
 	<div class="up">
 		<label class="title"><p>タイトル</p></label>
 		<label class="release"><p>公開日</p></label>
 	</div>
-		<label class="timestamp"><p></p></label>
+
+		<div class="timestamp"><!-- googledriveに保存している場合タイムスタンプは使えない-->
+			<a >0:00 - 開始</a>
+			<a >0:04 - 曲が流れる</a>
+			<a >3:00 - 社内ルール</a>
+			<a >5:00 - 質疑応答</a>
+			<button type="button" id="gikuri" >ぎっくりと</button>
+			<button type="button" id="seek" >なにをいってるのかと</button>
+			<button type="button" id="seikin" class="seikin">seikin</button>
+		</div>
+
 		<label class="description"><p></p></label>
 		<a href="check_test.php">確認テストはこちら</a>
 </div>
+
+  <script>
+
+ // 指定秒数からYouTube動画を再生
+  const seekTo = (timeInSeconds) => {
+    const iframe = document.getElementById('videoFrame');
+    const baseUrl = "https://www.youtube.com/embed/uGLVtWojYiQ";
+    iframe.src = `${baseUrl}?start=${timeInSeconds}&autoplay=1`;
+  };
+
+const seikinsan = () => 
+{
+    const iframe = document.getElementById('videoFrame'); // ← ここで取得
+    iframe.src = "https://www.youtube.com/embed/uGLVtWojYiQ?si=G37T6p29PhgjqCly";
+}
+  document.getElementById('gikuri').addEventListener('click',() => seekTo(169));
+  document.getElementById('seek').addEventListener('click',() => seekTo(909));
+  document.getElementById('seikin').addEventListener('click',seikinsan);
+
+
+
+</script>
+
+
+
 
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />
