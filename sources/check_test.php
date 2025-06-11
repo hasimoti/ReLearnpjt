@@ -206,12 +206,12 @@ END_BLOCK;
  <link rel="stylesheet" type="text/css" href="css/course_detail.css">
 <div class="contents">
 <?= $this->get_err_flag(); ?>
-<h5><strong>講座詳細</strong></h5>
+<h5><strong>確認テスト</strong></h5>
 <form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
 <a href="member_list.php">一覧に戻る</a>
 
 <label>1+1=?</label>
-
+<button type="submit" class="send">回答</button>
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />
 <input type="hidden" name="member_id" value="<?= $member_id; ?>" />
