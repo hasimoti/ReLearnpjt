@@ -6,7 +6,7 @@
 */
 
 //ライブラリをインクルード
-require_once("../common/libs.php");
+require_once("common/libs.php");
 
 $err_array = array();
 $err_flag = 0;
@@ -492,7 +492,7 @@ END_BLOCK;
 <a href="member_list.php">一覧に戻る</a>
 
 
-<iframe width="560" height="315" src="https://drive.google.com/file/d/1Hzq2woyQVI1kzC2YqCQPRbfnUqRiLCXP/preview" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315"  src="https://drive.google.com/file/d/1Hzq2woyQVI1kzC2YqCQPRbfnUqRiLCXP/preview" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />

@@ -6,7 +6,7 @@
 */
 
 //ライブラリをインクルード
-require_once("../common/libs.php");
+require_once("common/libs.php");
 
 $err_array = array();
 $err_flag = 0;
@@ -494,12 +494,12 @@ END_BLOCK;
 
 <div class="Thumbnails">
 	<div class="Thumbnail1">
-			<a href="./user/course_list.php"><img src="../img/サムネサンプル.jpg" width="400px" >
-			<a href="./user/CourseDetails.php"> <img src="../img/サムネ２.jpg"  width="400px" ></a>
+			<a href="course_list.php"><img src="img/サムネサンプル.jpg" width="400px" >
+			<a href="CourseDetails.php"> <img src="img/サムネ２.jpg"  width="400px" ></a>
 	</div>
 	<div class="Thumbnail2">
-			<a href="./course_detail.php"> <img src="../img/サムネ２.jpg"  width="400px" ></a>
-			<a href="./prefecture_detail.php"> <img src="../img/サムネ２.jpg"  width="400px" ></a>
+			<a href="course_detail.php"> <img src="img/サムネ２.jpg"  width="400px" ></a>
+			<a href="prefecture_detail.php"> <img src="img/サムネ２.jpg"  width="400px" ></a>
 	</div>
 </div>
 
