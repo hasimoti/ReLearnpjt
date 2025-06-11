@@ -493,7 +493,17 @@ END_BLOCK;
 <a href="member_list.php">一覧に戻る</a>
 
 
-<iframe width="560" height="315" class="mov" src="https://drive.google.com/file/d/1Hzq2woyQVI1kzC2YqCQPRbfnUqRiLCXP/preview" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="660" height="415" class="mov" src="https://drive.google.com/file/d/1Hzq2woyQVI1kzC2YqCQPRbfnUqRiLCXP/preview" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<div class="summary">
+	<div class="up">
+		<label class="title"><p>タイトル</p></label>
+		<label class="release"><p>公開日</p></label>
+	</div>
+		<label class="timestamp"><p></p></label>
+		<label class="description"><p></p></label>
+		<a href="check_test.php">
+</div>
 
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />
