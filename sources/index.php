@@ -49,7 +49,8 @@ class cmain_node extends cnode {
 </thead>
 <tbody>
 
-<div class="Thumbnails">
+
+</tbody><div class="Thumbnails">
 	<div class="Thumbnail1">
 			<a href="./user/course_list.php"><img src="./img/サムネサンプル.jpg" width="400px" >
 			<a href="./user/CourseDetails.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
@@ -59,7 +60,6 @@ class cmain_node extends cnode {
 			<a href="./prefecture_detail.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
 	</div>
 </div>
-</tbody>
 </table>
 </div>
 <!-- /コンテンツ　-->
