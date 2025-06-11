@@ -485,6 +485,7 @@ END_BLOCK;
 //PHPブロック終了
 ?>
 <!-- コンテンツ　-->
+ <link rel="stylesheet" type="text/css" href="css/course_detail.css">
 <div class="contents">
 <?= $this->get_err_flag(); ?>
 <h5><strong>講座詳細</strong></h5>
@@ -492,7 +493,7 @@ END_BLOCK;
 <a href="member_list.php">一覧に戻る</a>
 
 
-<iframe width="560" height="315"  src="https://drive.google.com/file/d/1Hzq2woyQVI1kzC2YqCQPRbfnUqRiLCXP/preview" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe width="560" height="315" class="mov" src="https://drive.google.com/file/d/1Hzq2woyQVI1kzC2YqCQPRbfnUqRiLCXP/preview" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />
