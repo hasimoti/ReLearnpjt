@@ -500,7 +500,6 @@ END_BLOCK;
 		<label class="title"><p>タイトル</p></label>
 		<label class="release"><p>公開日</p></label>
 	</div>
-
 		<div class="timestamp"><!-- googledriveに保存している場合タイムスタンプは使えない-->
 			<a >0:00 - 開始</a>
 			<a >0:04 - 曲が流れる</a>
@@ -511,7 +510,7 @@ END_BLOCK;
 			<button type="button" id="seikin" class="seikin">seikin</button>
 		</div>
 
-		<label class="description"><p></p></label>
+		<label class="description"><p>説明</p></label>
 		<a href="check_test.php">確認テストはこちら</a>
 </div>
 
