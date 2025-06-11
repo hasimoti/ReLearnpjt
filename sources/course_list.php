@@ -488,7 +488,7 @@ END_BLOCK;
  <link rel="stylesheet" type="text/css" href="css/style.css">
 <div class="contents">
 <?= $this->get_err_flag(); ?>
-<h5><strong>講座詳細</strong></h5>
+<h5><strong>講座一覧</strong></h5>
 <form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
 <a href="member_list.php">一覧に戻る</a>
 
