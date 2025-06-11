@@ -210,7 +210,26 @@ END_BLOCK;
 <form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
 <a href="member_list.php">一覧に戻る</a>
 
-<label>1+1=?</label>
+<div class="Q1">Q1
+    <label><p>C#の変数宣言で正しいものはどれか</p></label><br>
+    <form>
+        <label>
+            <input type="radio" name="choice" value="option1">
+            int num = 10;
+        </label><br>
+
+        <label>
+            <input type="radio" name="choice" value="option2">
+            var num = 10:
+        </label><br>
+
+        <label>
+            <input type="radio" name="choice" value="option3">
+            let num = 10;
+        </label>
+    </form>
+</div>
+
 <button type="submit" class="send">回答</button>
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />
@@ -245,6 +264,7 @@ $page_obj->add_child(cutil::create('cfooter'));
 $page_obj->create();
 //本体実行（表示前処理）
 $cmain_obj->execute();
+
 //ページ全体を表示
 $page_obj->display();
 
