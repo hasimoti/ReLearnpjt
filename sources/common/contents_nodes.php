@@ -50,25 +50,22 @@ class cheader extends cnode {
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="css/style.css">
 
-    <div class="header">
+<div class="header">
 
-
-   
-
-	<form class="search-bar" action="search.html" method="GET">
+	<form class="search-bar" action="course_list.php" method="GET">
 		<div class="search-box">
-		<input type="text" placeholder="検索ワード">
-		<button type="submit">
-			<i class="fas fa-search fa-fw">🔍</i>
-		</button>
+			<input type="text" placeholder="検索ワード">
+			<button type="submit">
+				<i class="fas fa-search fa-fw">🔍</i>
+			</button>
+		</div>
 	</form>
 
+	<div class="right">
+		<a href="common/login.php" class="logo-button">ロゴ</a>
+		<a href="common/login.php" class="icon profile-icon"><img src="./img/アイコン.png"  width="50px" ></a>
+	</div>
 </div>
-	<a href="common/login.php" class="logo-button">ロゴ</a>
-    <a href="common/login.php" class="icon profile-icon">👤</a>
-	<a href="member_detail.php" class="icon profile-icon">👹</a>
-  </div>
-
 
 
 </head>

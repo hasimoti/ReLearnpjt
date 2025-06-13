@@ -6,7 +6,7 @@
 */
 
 //ライブラリをインクルード
-require_once("../common/libs.php");
+require_once("common/libs.php");
 
 $err_array = array();
 $err_flag = 0;
@@ -485,14 +485,80 @@ END_BLOCK;
 //PHPブロック終了
 ?>
 <!-- コンテンツ　-->
+ <link rel="stylesheet" type="text/css" href="css/style.css">
 <div class="contents">
 <?= $this->get_err_flag(); ?>
-<h5><strong>講座詳細</strong></h5>
+<h5><strong>講座一覧</strong></h5>
 <form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
 <a href="member_list.php">一覧に戻る</a>
 
+<div class="Thumbnails">
+	<div class="Thumbnail1">
+			<a href="course_list.php"><img src="img/サムネサンプル.jpg" width="400px" >
+			<a href="CourseDetails.php"> <img src="img/サムネ２.jpg"  width="400px" ></a>
+	</div>
+	<div class="Thumbnail2">
+			<a href="course_detail.php"> <img src="img/サムネ２.jpg"  width="400px" ></a>
+			<a href="prefecture_detail.php"> <img src="img/サムネ２.jpg"  width="400px" ></a>
+	</div>
+</div>
 
-<iframe width="560" height="315" src="https://drive.google.com/file/d/1Hzq2woyQVI1kzC2YqCQPRbfnUqRiLCXP/preview" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<div class="pagination" id="pagination">
+  <!-- JavaScriptで描画されます -->
+</div>
+<script>
+  const totalPages = 3;
+  let currentPage = 1;
+
+  function renderPagination() {
+    const container = document.getElementById('pagination');
+    container.innerHTML = '';
+
+    const createLink = (text, page, isDisabled = false) => {
+      const link = document.createElement('a');
+      link.textContent = text;
+      if (!isDisabled) {
+        link.addEventListener('click', () => {
+          currentPage = page;
+          renderPagination();
+        });
+      } else {
+        link.classList.add('disabled');
+      }
+      return link;
+    };
+
+    // ＜前
+    container.appendChild(createLink('＜前', currentPage - 1, currentPage === 1));
+    container.appendChild(createSeparator());
+
+    // ページ番号
+    for (let i = 1; i <= totalPages; i++) {
+      const link = createLink(i, i);
+      if (i === currentPage) {
+        link.classList.add('active');
+      }
+      container.appendChild(link);
+      if (i < totalPages) {
+        container.appendChild(createSeparator());
+      }
+    }
+
+    // ＞次
+    container.appendChild(createSeparator());
+    container.appendChild(createLink('次＞', currentPage + 1, currentPage === totalPages));
+  }
+
+  function createSeparator() {
+    const sep = document.createElement('span');
+    sep.className = 'separator';
+    sep.textContent = '|';
+    return sep;
+  }
+
+  renderPagination();
+</script>
+
 
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />
