@@ -129,7 +129,7 @@ class cmain_node extends cnode {
 
 <tr>
 <td width="20%" class="text-center">
-{$value['question_id']}
+Q{$value['question_id']}
 </td>
 <!-- ここ問題文-->
 <td width="65%" class="text-center">
@@ -208,7 +208,7 @@ END_BLOCK;
 <p><a href="testcreate.php">新規</a></p>
 <p><?= $this->get_page_block(); ?></p>
 <tr>
-<th class="text-center">Q</th>
+<th class="text-center">タイトルみたいなやつ</th>
 </tr>
 <?= $this->get_question_rows(); ?>
 <input type="hidden" name="func" value="" >
