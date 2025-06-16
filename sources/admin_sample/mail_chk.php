@@ -1,18 +1,21 @@
 <?php
 /*!
-@file question_detail.php
-@brief 問題詳細
+@file mail_chk.php
+@brief メール送信チェック
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
 
 //ライブラリをインクルード
 require_once("../common/libs.php");
+//以下はセッション管理用のインクルード
+require_once("../common/auth_adm.php");
 
 $err_array = array();
 $err_flag = 0;
 $page_obj = null;
-//プライマリキー
-$question_id = 0;
+
+
+
 
 //--------------------------------------------------------------------------------------
 ///	本体ノード
@@ -26,21 +29,6 @@ class cmain_node extends cnode {
 	public function __construct() {
 		//親クラスのコンストラクタを呼ぶ
 		parent::__construct();
-		//プライマリキー
-		global $question_id;
-		if(isset($_GET['pid']) 
-		//cutilクラスのメンバ関数をスタティック呼出
-			&& cutil::is_number($_GET['pid'])
-			&& $_GET['pid'] > 0){
-			$question_id = $_GET['pid'];
-		}
-		//$_POST優先
-		if(isset($_POST['question_id']) 
-		//cutilクラスのメンバ関数をスタティック呼出
-			&& cutil::is_number($_POST['question_id'])
-			&& $_POST['question_id'] > 0){
-			$question_id = $_POST['question_id'];
-		}
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -49,7 +37,10 @@ class cmain_node extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	public function post_default(){
-		cutil::post_default("question_name",'');
+		cutil::post_default("mail_from",'');
+		cutil::post_default("mail_to",'');
+		cutil::post_default("subject",'');
+		cutil::post_default("message",'');
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -69,8 +60,6 @@ class cmain_node extends cnode {
 		global $err_array;
 		global $err_flag;
 		global $page_obj;
-		//プライマリキー
-		global $question_id;
 		if(is_null($page_obj)){
 			echo 'ページが無効です';
 			exit();
@@ -104,24 +93,7 @@ class cmain_node extends cnode {
 			}
 		}
 		else{
-			if($question_id > 0){
-				$question_obj = new cquestion();
-				//$_POSTにデータを読み込む
-				$_POST = $question_obj->get_tgt(false,$question_id);
-				if(cutil::array_chk($_POST)){
-					//データ取得成功
-					$_POST['func'] = 'edit';
-				}
-				else{
-					//データの取得に失敗したので
-					//新規ページにリダイレクト
-					cutil::redirect_exit($_SERVER['PHP_SELF']);
-				}
-			}
-			else{
-				//新規の入力フォーム
-				$_POST['func'] = 'new';
-			}
+			$_POST['func'] = 'new';
 		}
 	}
 	//--------------------------------------------------------------------------------------
@@ -133,32 +105,57 @@ class cmain_node extends cnode {
 	function paramchk(){
 		global $err_array;
 		global $err_flag;
-		/// 問題名の存在と空白チェック
-		if(cutil_ex::chkset_err_field($err_array,'question_name','問題名','isset_nl')){
+////////////////////////////////////////////////////////////
+		/// 送信元の存在と空白チェック
+		if(cutil_ex::chkset_err_field($err_array,'mail_from','送信元','isset_mail')){
+			$err_flag = 1;
+		}
+////////////////////////////////////////////////////////////
+		/// 送信先の存在と空白チェック
+		if(cutil_ex::chkset_err_field($err_array,'mail_to','送信先','isset_mail')){
+			$err_flag = 1;
+		}
+////////////////////////////////////////////////////////////
+		/// タイトルの存在と空白チェック
+		if(cutil_ex::chkset_err_field($err_array,'subject','タイトル','isset_nl')){
+			$err_flag = 1;
+		}
+////////////////////////////////////////////////////////////
+		/// メッセージの存在と空白チェック
+		if(cutil_ex::chkset_err_field($err_array,'message','メッセージ','isset_nl')){
 			$err_flag = 1;
 		}
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	問題の追加／更新。保存後自分自身を再読み込みする。
+	@brief	管理者の追加／更新。保存後自分自身を再読み込みする。
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
 	function regist(){
-		global $question_id;
-		$change_obj = new crecord();
-		$dataarr = array();
-		$dataarr['question_name'] = (string)$_POST['question_name'];
-		if($question_id > 0){
-			$where = 'question_id = :question_id';
-			$wherearr[':question_id'] = (int)$question_id;
-			$change_obj->update_core(false,'question',$dataarr,$where,$wherearr,false);
-			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?pid=' . $question_id);
-		}
-		else{
-			$pid = $change_obj->insert_core(false,'question',$dataarr,false);
-			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?pid=' . $pid);
-		}
+		$Subject = $_POST['subject'];
+		$Message = $_POST['message'];
+		$Headers = "From: " . $_POST['mail_from'] . "\r\n";
+		$Headers .= 'Return-Path: ' . $_POST['mail_from'];
+		$Message .= "\r\n";
+		$Option = "-f {$_POST['mail_from']}";
+		$To = $_POST['mail_to'];
+//以下デバッグ用
+//メール送信は危険なので、十分デバッグしてから実行してください。
+/*
+		$chk_str = <<< END_BLOCK
+From: {$_POST['mail_from']}<br>
+To: {$_POST['mail_to']}<br>
+Subject: {$_POST['subject']}<br>
+Message: {$_POST['message']}<br>
+Option: -f {$_POST['mail_from']}<br>
+END_BLOCK;
+		echo $chk_str;
+		exit();
+*/
+		//メール送信
+		mb_send_mail($To, $Subject, $Message, $Headers,$Option);
+		cutil::redirect_exit('mail_thanks.php');
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -188,38 +185,75 @@ END_BLOCK;
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	問題IDの取得(新規の場合は「新規」)
-	@return	問題ID
+	@brief	送信元コントロールの取得
+	@return	送信元コントロール
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_question_id_txt(){
-		global $question_id;
-		if($question_id <= 0){
-			return '新規';
-		}
-		else{
-			return $question_id;
-		}
-	}
-	//--------------------------------------------------------------------------------------
-	/*!
-	@brief	問題コントロールの取得
-	@return	問題コントロール
-	*/
-	//--------------------------------------------------------------------------------------
-	function get_question_name(){
+	function get_mail_from(){
 		global $err_array;
 		$ret_str = '';
-		$tgt = new ctextbox('question_name',$_POST['question_name'],'size="70"');
+		$tgt = new ctextbox('mail_from',$_POST['mail_from'],'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if(isset($err_array['question_name'])){
+		if(isset($err_array['mail_from'])){
 			$ret_str .=  '<br /><span class="text-danger">' 
-			. cutil::ret2br($err_array['question_name']) 
+			. cutil::ret2br($err_array['mail_from']) 
 			. '</span>';
 		}
 		return $ret_str;
 	}
-
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	送信先コントロールの取得
+	@return	送信先コントロール
+	*/
+	//--------------------------------------------------------------------------------------
+	function get_mail_to(){
+		global $err_array;
+		$ret_str = '';
+		$tgt = new ctextbox('mail_to',$_POST['mail_to'],'size="70"');
+		$ret_str = $tgt->get($_POST['func'] == 'conf');
+		if(isset($err_array['mail_to'])){
+			$ret_str .=  '<br /><span class="text-danger">' 
+			. cutil::ret2br($err_array['mail_to']) 
+			. '</span>';
+		}
+		return $ret_str;
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	タイトルコントロールの取得
+	@return	タイトルコントロール
+	*/
+	//--------------------------------------------------------------------------------------
+	function get_subject(){
+		global $err_array;
+		$ret_str = '';
+		$tgt = new ctextbox('subject',$_POST['subject'],'size="70"');
+		$ret_str = $tgt->get($_POST['func'] == 'conf');
+		if(isset($err_array['subject'])){
+			$ret_str .=  '<br /><span class="text-danger">' 
+			. cutil::ret2br($err_array['subject']) 
+			. '</span>';
+		}
+		return $ret_str;
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	メッセージコントロールの取得
+	@return	メッセージコントロール
+	*/
+	//--------------------------------------------------------------------------------------
+	function get_message(){
+		global $err_array;
+		$tgt = new ctextarea('message',$_POST['message'],'cols="70" rows="5"');
+		$ret_str = $tgt->get($_POST['func'] == 'conf');
+		if(isset($err_array['message'])){
+			$ret_str .=  '<br /><span class="text-danger">' 
+			. cutil::ret2br($err_array['message']) 
+			. '</span>';
+		}
+		return $ret_str;
+	}
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	操作ボタンの取得
@@ -227,13 +261,9 @@ END_BLOCK;
 	*/
 	//--------------------------------------------------------------------------------------
 	function get_switch(){
-		global $question_id;
 		$ret_str = '';
 		if($_POST['func'] == 'conf'){
-			$button = '更新';
-			if($question_id <= 0){
-				$button = '追加';
-			}
+			$button = 'メール送信';
 			$ret_str =<<<END_BLOCK
 
 <input type="button"  value="戻る" onClick="set_func_form('edit','')"/>&nbsp;
@@ -248,8 +278,6 @@ END_BLOCK;
 		}
 		return $ret_str;
 	}
-
-
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief  表示(継承して使用)
@@ -257,28 +285,35 @@ END_BLOCK;
 	*/
 	//--------------------------------------------------------------------------------------
 	public function display(){
-		global $question_id;
+		global $admin_master_id;
 //PHPブロック終了
 ?>
 <!-- コンテンツ　-->
 <div class="contents">
 <?= $this->get_err_flag(); ?>
-<h5><strong>問題詳細</strong></h5>
+<h5><strong>メール送信テスト</strong></h5>
+<p class="text-danger">※メール送信はスパムメールの要因にもなる危険なプログラムです。慎重に使用しましょう</p>
 <form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
-<a href="question_list.php">一覧に戻る</a>
 <table class="table table-bordered">
 <tr>
-<th class="text-center">ID</th>
-<td width="70%"><?= $this->get_question_id_txt(); ?></td>
+<th class="text-center">送信元</th>
+<td width="70%"><?= $this->get_mail_from(); ?></td>
 </tr>
 <tr>
-<th class="text-center">問題名</th>
-<td width="70%"><?= $this->get_question_name(); ?></td>
+<th class="text-center">送信先</th>
+<td width="70%"><?= $this->get_mail_to(); ?></td>
+</tr>
+<tr>
+<th class="text-center">タイトル</th>
+<td width="70%"><?= $this->get_subject(); ?></td>
+</tr>
+<tr>
+<th class="text-center">メッセージ</th>
+<td width="70%"><?= $this->get_message(); ?></td>
 </tr>
 </table>
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />
-<input type="hidden" name="question_id" value="<?= $question_id; ?>" />
 <p class="text-center"><?= $this->get_switch(); ?></p>
 </form>
 </div>
@@ -302,13 +337,13 @@ $page_obj = new cnode();
 //ヘッダ追加
 $page_obj->add_child(cutil::create('cheader'));
 //本体追加
-$page_obj->add_child($main_obj = cutil::create('cmain_node'));
+$page_obj->add_child($cmain_obj = cutil::create('cmain_node'));
 //フッタ追加
 $page_obj->add_child(cutil::create('cfooter'));
 //構築時処理
 $page_obj->create();
 //本体実行（表示前処理）
-$main_obj->execute();
+$cmain_obj->execute();
 //ページ全体を表示
 $page_obj->display();
 

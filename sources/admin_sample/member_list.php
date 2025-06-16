@@ -1,12 +1,14 @@
 <?php
 /*!
-@file question_list.php
-@brief 問題一覧
+@file member_list.php
+@brief メンバー一覧
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
 
 //ライブラリをインクルード
 require_once("../common/libs.php");
+//以下はセッション管理用のインクルード
+require_once("../common/auth_adm.php");
 
 $err_array = array();
 $err_flag = 0;
@@ -27,7 +29,7 @@ if(isset($_GET['page'])
 
 //1ページのリミット
 $limit = 20;
-$question_rows = array();
+$member_rows = array();
 
 
 //--------------------------------------------------------------------------------------
@@ -51,11 +53,11 @@ class cmain_node extends cnode {
 	//--------------------------------------------------------------------------------------
 	function readdata(){
 		global $limit;
-		global $question_rows;
+		global $member_rows;
 		global $page;
-		$obj = new cquestion();
+		$obj = new cmember();
 		$from = ($page - 1) * $limit;
-		$question_rows = $obj->get_all(false,$from,$limit);
+		$member_rows = $obj->get_all(false,$from,$limit);
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -65,10 +67,10 @@ class cmain_node extends cnode {
 	//--------------------------------------------------------------------------------------
 	function deljob(){
 		if(isset($_POST['param']) && $_POST['param'] > 0){
-			$where = 'question_id = :question_id';
-			$wherearr[':question_id'] = (int)$_POST['param'];
+			$where = 'member_id = :member_id';
+			$wherearr[':member_id'] = (int)$_POST['param'];
 			$change_obj = new crecord();
-			$change_obj->delete_core(false,'question',$where,$wherearr,false);
+			$change_obj->delete_core(false,'member',$where,$wherearr,false);
 		}
 	}
 	//--------------------------------------------------------------------------------------
@@ -111,30 +113,29 @@ class cmain_node extends cnode {
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	問題のリストを得る
-	@return	問題リストの文字列
+	@brief	メンバーのリストを得る
+	@return	メンバーリストの文字列
 	*/
 	//--------------------------------------------------------------------------------------
-	public function get_question_rows(){
-		global $question_rows;
+	public function get_member_rows(){
+		global $member_rows;
 		global $page;
 		$retstr = '';
 		$urlparam = '&page=' . $page;
 		$rowscount = 1;
-		if(count($question_rows) > 0){
-			foreach($question_rows as $key => $value){
-				$javamsg =  '【' . $value['question_name'] . '】';
+		if(count($member_rows) > 0){
+			foreach($member_rows as $key => $value){
+				$javamsg =  '【' . $value['member_name'] . '】';
 				$str =<<<END_BLOCK
-
 <tr>
 <td width="20%" class="text-center">
-{$value['question_id']}
+{$value['member_id']}
 </td>
 <td width="65%" class="text-center">
-<a href="testcreate.php?pid={$value['question_id']}{$urlparam}">{$value['question_name']}</a>
+<a href="member_detail.php?mid={$value['member_id']}{$urlparam}">{$value['member_name']}</a>
 </td>
 <td width="15%" class="text-center">
-<input type="button" value="削除確認" onClick="del_func_form({$value['question_id']},'{$javamsg}');" />
+<input type="button" value="削除確認" onClick="del_func_form({$value['member_id']},'{$javamsg}');" />
 </td>
 </tr>
 END_BLOCK;
@@ -144,8 +145,7 @@ END_BLOCK;
 		}
 		else{
 			$retstr =<<<END_BLOCK
-
-<tr><td colspan="3" class="text-left">問題が見つかりません</td></tr>
+<tr><td colspan="3" class="nobottom">メンバーが見つかりません</td></tr>
 END_BLOCK;
 		}
 		return $retstr;
@@ -159,7 +159,7 @@ END_BLOCK;
 	function get_page_block(){
 		global $limit;
 		global $page;
-		$obj = new cquestion();
+		$obj = new cmember();
 		$allcount = $obj->get_all_count(false);
 		$ctl = new cpager($_SERVER['PHP_SELF'],$allcount,$limit);
 		return $ctl->get('page',$page);
@@ -186,17 +186,17 @@ END_BLOCK;
 ?>
 <!-- コンテンツ　-->
 <div class="contents">
-<h5><strong>問題一覧</strong></h5>
+<h5><strong>メンバー一覧</strong></h5>
 <form name="form1" action="<?= $this->get_tgt_uri(); ?>" method="post" >
-<p><a href="testcreate.php">新規</a></p>
+<p><a href="member_detail.php">新規</a></p>
 <p><?= $this->get_page_block(); ?></p>
 <table class="table table-bordered">
 <tr>
-<th class="text-center">問題ID</th>
-<th class="text-center">問題名</th>
+<th class="text-center">メンバーID</th>
+<th class="text-center">メンバー名</th>
 <th class="text-center">操作</th>
 </tr>
-<?= $this->get_question_rows(); ?>
+<?= $this->get_member_rows(); ?>
 </table>
 <input type="hidden" name="func" value="" >
 <input type="hidden" name="param" value="" >
@@ -222,13 +222,13 @@ $page_obj = new cnode();
 //ヘッダ追加
 $page_obj->add_child(cutil::create('cheader'));
 //本体追加
-$page_obj->add_child($main_obj = cutil::create('cmain_node'));
+$page_obj->add_child($cmain_obj = cutil::create('cmain_node'));
 //フッタ追加
 $page_obj->add_child(cutil::create('cfooter'));
 //構築時処理
 $page_obj->create();
 //本体実行（表示前処理）
-$main_obj->execute();
+$cmain_obj->execute();
 //ページ全体を表示
 $page_obj->display();
 

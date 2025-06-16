@@ -9,9 +9,9 @@
 //以下、DBクラス使用例
 
 //--------------------------------------------------------------------------------------
-///	都道府県クラス
+///	問題クラス
 //--------------------------------------------------------------------------------------
-class cprefecture extends crecord {
+class cquestion extends crecord {
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	コンストラクタ
@@ -34,7 +34,7 @@ class cprefecture extends crecord {
 select
 count(*)
 from
-prefecture
+question
 where
 1
 END_BLOCK;
@@ -70,11 +70,11 @@ END_BLOCK;
 select
 *
 from
-prefecture
+question
 where
 1
 order by
-prefecture_id asc
+question_id asc
 limit :from, :limit
 END_BLOCK;
 		$prep_arr = array(
@@ -112,12 +112,12 @@ END_BLOCK;
 select
 *
 from
-prefecture
+question
 where
-prefecture_id = :prefecture_id
+question_id = :question_id
 END_BLOCK;
 		$prep_arr = array(
-				':prefecture_id' => (int)$id
+				':question_id' => (int)$id
 		);
 		//親クラスのselect_query()メンバ関数を呼ぶ
 		$this->select_query(
@@ -290,9 +290,9 @@ class cmember extends crecord {
 select
 count(*)
 from
-member,prefecture
+member,question
 where
-member.member_prefecture_id = prefecture.prefecture_id
+member.member_question_id = question.question_id
 END_BLOCK;
 		//空のデータ
 		$prep_arr = array();
@@ -324,11 +324,11 @@ END_BLOCK;
 		//プレースホルダつき
 		$query = <<< END_BLOCK
 select
-member.*,prefecture.*
+member.*,question.*
 from
-member,prefecture
+member,question
 where
-member.member_prefecture_id = prefecture.prefecture_id
+member.member_question_id = question.question_id
 order by
 member.member_id asc
 limit :from, :limit
@@ -366,11 +366,11 @@ END_BLOCK;
 		//プレースホルダつき
 		$query = <<< END_BLOCK
 select
-member.*,prefecture.*
+member.*,question.*
 from
-member,prefecture
+member,question
 where
-member.member_prefecture_id = prefecture.prefecture_id
+member.member_question_id = question.question_id
 and
 member.member_id = :member_id
 END_BLOCK;
