@@ -208,7 +208,7 @@ END_BLOCK;
 <p><a href="testcreate.php">新規</a></p>
 <p><?= $this->get_page_block(); ?></p>
 <tr>
-<th class="text-center">タイトルみたいなやつ</th>
+<th class="text-center">タイトルみたいなやつ</th><br>
 </tr>
 <?= $this->get_question_rows(); ?>
 <input type="hidden" name="func" value="" >
