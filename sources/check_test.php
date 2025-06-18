@@ -128,33 +128,19 @@ class cmain_node extends cnode {
 				$str =<<<END_BLOCK
 
 <tr>
-<td width="20%" class="text-center">
-Q{$value['question_id']}
-</td>
-<!-- ここ問題文-->
-<td width="65%" class="text-center">
-{$value['question_name']}
-</td><br>
-<td width="15%" class="text-center">
-<!-- ここラジオボタン-->
-<form >
-	<label>
-		<input type="radio" name="choice" value="option1">
-		{$value['choice1']}<br>
-	<label>
-
-	<label>
-		<input type="radio" name="choice" value="option2">
-		{$value['choice2']}<br>
-	<label>
-
-	<label>
-		<input type="radio" name="choice" value="option3">
-		{$value['choice3']}<br>
-	<label>
-<form>
-</td>
+  <td width="20%" class="text-center">
+    Q{$value['question_id']}
+  </td>
+  <td width="65%" class="text-center">
+    {$value['question_name']}
+  </td><br>
+  <td width="15%" class="text-center">
+    <label><input type="radio" name="answer[{$value['question_id']}]" value="0" required> {$value['choice1']}</label><br>
+    <label><input type="radio" name="answer[{$value['question_id']}]" value="1"> {$value['choice2']}</label><br>
+    <label><input type="radio" name="answer[{$value['question_id']}]" value="2"> {$value['choice3']}</label><br>
+  </td>
 </tr>
+	
 END_BLOCK;
 			$retstr .= $str;
 			$rowscount++;
@@ -205,7 +191,7 @@ END_BLOCK;
 <!-- コンテンツ　-->
 <div class="contents">
 <h5><strong>問題一覧</strong></h5>
-<form name="form1" action="<?= $this->get_tgt_uri(); ?>" method="post" >
+<form name="form1" action="answer.php" method="post" >
 <p><a href="testcreate.php">新規</a></p>
 <p><?= $this->get_page_block(); ?></p>
 <tr>
@@ -214,6 +200,7 @@ END_BLOCK;
 <?= $this->get_question_rows(); ?>
 <input type="hidden" name="func" value="" >
 <input type="hidden" name="param" value="" >
+<input type="submit" value="回答">
 </form>
 </div>
 <!-- /コンテンツ　-->
