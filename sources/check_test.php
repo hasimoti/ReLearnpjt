@@ -1,7 +1,8 @@
+
 <?php
 /*!
-@file member_detail.php
-@brief メンバー詳細
+@file question_list.php
+@brief 問題一覧
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
 
@@ -11,8 +12,23 @@ require_once("common/libs.php");
 $err_array = array();
 $err_flag = 0;
 $page_obj = null;
-//プライマリキー
-$member_id = 0;
+
+//ページの設定
+//デフォルトは1
+$page = 1;
+//もしページが指定されていたら
+if(isset($_GET['page']) 
+    //なおかつ、数字だったら
+    && cutil::is_number($_GET['page'])
+    //なおかつ、0より大きかったら
+    && $_GET['page'] > 0){
+    //パラメータを設定
+    $page = $_GET['page'];
+}
+
+//1ページのリミット
+$limit = 20;
+$question_rows = array();
 
 
 //--------------------------------------------------------------------------------------
@@ -27,46 +43,34 @@ class cmain_node extends cnode {
 	public function __construct() {
 		//親クラスのコンストラクタを呼ぶ
 		parent::__construct();
-		//プライマリキー
-		global $member_id;
-		if(isset($_GET['mid']) 
-		//cutilクラスのメンバ関数をスタティック呼出
-			&& cutil::is_number($_GET['mid'])
-			&& $_GET['mid'] > 0){
-			$member_id = $_GET['mid'];
-		}
-		//$_POST優先
-		if(isset($_POST['member_id']) 
-		//cutilクラスのメンバ関数をスタティック呼出
-			&& cutil::is_number($_POST['member_id'])
-			&& $_POST['member_id'] > 0){
-			$member_id = $_POST['member_id'];
-		}
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief  POST変数のデフォルト値をセット
-	@return なし
-	*/
-	//--------------------------------------------------------------------------------------
-	public function post_default(){
-		cutil::post_default("member_name",'');
-		cutil::post_default("member_prefecture_id",0);
-		cutil::post_default("member_address",'');
-		cutil::post_default("member_minor",0);
-		cutil::post_default("par_name",'');
-		cutil::post_default("par_prefecture_id",0);
-		cutil::post_default("par_address",'');
-		if(!isset($_POST['fruits']))$_POST['fruits'] = array();
-		cutil::post_default("member_comment",'');
-	}
-	//--------------------------------------------------------------------------------------
-	/*!
-	@brief	構築時の処理(継承して使用)
+	@brief	データ読み込み
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	public function create(){
+	function readdata(){
+		global $limit;
+		global $question_rows;
+		global $page;
+		$obj = new cquestion();
+		$from = ($page - 1) * $limit;
+		$question_rows = $obj->get_all(false,$from,$limit);
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	削除
+	@return	なし
+	*/
+	//--------------------------------------------------------------------------------------
+	function deljob(){
+		if(isset($_POST['param']) && $_POST['param'] > 0){
+			$where = 'question_id = :question_id';
+			$wherearr[':question_id'] = (int)$_POST['param'];
+			$change_obj = new crecord();
+			$change_obj->delete_core(false,'question',$where,$wherearr,false);
+		}
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -78,119 +82,116 @@ class cmain_node extends cnode {
 		global $err_array;
 		global $err_flag;
 		global $page_obj;
-		//プライマリキー
-		global $member_id;
 		if(is_null($page_obj)){
-			echo 'ページが無効です';
-			exit();
+			return;
 		}
 		if(isset($_POST['func'])){
 			switch($_POST['func']){
-				case 'set':
-					//パラメータのチェック
-					$page_obj->paramchk();
-					if($err_flag != 0){
-						$_POST['func'] = 'edit';
-					}
-					else{
-						$this->regist();
-					}
-				case 'conf':
-					//パラメータのチェック
-					$page_obj->paramchk();
-					if($err_flag != 0){
-						$_POST['func'] = 'edit';
-					}
-				break;
-				case 'edit':
-					//戻るボタン。
+				case "del":
+					//削除操作
+					$this->deljob();
+					//再読み込みのためにリダイレクト
+					cutil::redirect_exit($_SERVER['PHP_SELF']);
 				break;
 				default:
-					//通常はありえない
-					echo '原因不明のエラーです。';
-					exit;
+					echo 'エラー';
+					exit();
 				break;
 			}
 		}
-		else{
-			if($member_id > 0){
-				$member_obj = new cmember();
-				//$_POSTにデータを読み込む
-				$_POST = $member_obj->get_tgt(false,$member_id);
-				if(cutil::array_chk($_POST)){
-					//好きな果物を読み込む
-					$_POST['fruits'] = $member_obj->get_all_fruits_match(false,$member_id);
-					//データ取得成功
-					$_POST['func'] = 'edit';
-				}
-				else{
-					//データの取得に失敗したので
-					//新規ページにリダイレクト
-					cutil::redirect_exit($_SERVER['PHP_SELF']);
-				}
-			}
-			else{
-				//新規の入力フォーム
-				$_POST['func'] = 'new';
-			}
-		}
+		//データの読み込み
+		$this->readdata();
 	}
-	
-	
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	エラー存在文字列の取得
+	@brief	構築時の処理(継承して使用)
 	@return	なし
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_err_flag(){
-		global $err_flag;
-		switch($err_flag){
-			case 1:
-			$str =<<<END_BLOCK
-
-<p class="text-danger">入力エラーがあります。各項目のエラーを確認してください。</p>
-END_BLOCK;
-			return $str;
-			break;
-			case 2:
-			$str =<<<END_BLOCK
-
-<p class="text-danger">更新に失敗しました。サポートを確認下さい。</p>
-END_BLOCK;
-			return $str;
-			break;
-		}
-		return '';
+	public function create(){
 	}
-	
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	操作ボタンの取得
-	@return	なし
+	@brief	問題のリストを得る
+	@return	問題リストの文字列
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_switch(){
-		global $member_id;
-		$ret_str = '';
-		if($_POST['func'] == 'conf'){
-			$button = '更新';
-			if($member_id <= 0){
-				$button = '追加';
-			}
-			$ret_str =<<<END_BLOCK
+	public function get_question_rows(){
+		global $question_rows;
+		global $page;
+		$retstr = '';
+		$urlparam = '&page=' . $page;
+		$rowscount = 1;
+		if(count($question_rows) > 0){
+			foreach($question_rows as $key => $value){
+				$javamsg =  '【' . $value['question_name'] . '】';
+				$str =<<<END_BLOCK
 
-<input type="button"  value="戻る" onClick="set_func_form('edit','')"/>&nbsp;
-<input type="button"  value="{$button}" onClick="set_func_form('set','')"/>
+<tr>
+<td width="20%" class="text-center">
+Q{$value['question_id']}
+</td>
+<!-- ここ問題文-->
+<td width="65%" class="text-center">
+{$value['question_name']}
+</td><br>
+<td width="15%" class="text-center">
+<!-- ここラジオボタン-->
+<form >
+	<label>
+		<input type="radio" name="choice" value="option1">
+		{$value['choice1']}<br>
+	<label>
+
+	<label>
+		<input type="radio" name="choice" value="option2">
+		{$value['choice2']}<br>
+	<label>
+
+	<label>
+		<input type="radio" name="choice" value="option3">
+		{$value['choice3']}<br>
+	<label>
+<form>
+</td>
+</tr>
 END_BLOCK;
+			$retstr .= $str;
+			$rowscount++;
+			}
 		}
 		else{
-			$ret_str =<<<END_BLOCK
+			$retstr =<<<END_BLOCK
 
-<input type="button"  value="確認" onClick="set_func_form('conf','')"/>
+<tr><td colspan="3" class="text-left">問題が見つかりません</td></tr>
 END_BLOCK;
 		}
-		return $ret_str;
+		return $retstr;
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	ページャーを得る
+	@return	ページャー文字列
+	*/
+	//--------------------------------------------------------------------------------------
+	function get_page_block(){
+		global $limit;
+		global $page;
+		$obj = new cquestion();
+		$allcount = $obj->get_all_count(false);
+		$ctl = new cpager($_SERVER['PHP_SELF'],$allcount,$limit);
+		return $ctl->get('page',$page);
+	}
+	//--------------------------------------------------------------------------------------
+	/*!
+	@brief	POSTするURLを得る
+	@return	POSTするURL
+	*/
+	//--------------------------------------------------------------------------------------
+	function get_tgt_uri(){
+		global $page;
+		return $_SERVER['PHP_SELF'] 
+		. '?page=' . $page;
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -199,42 +200,20 @@ END_BLOCK;
 	*/
 	//--------------------------------------------------------------------------------------
 	public function display(){
-		global $member_id;
 //PHPブロック終了
 ?>
 <!-- コンテンツ　-->
- <link rel="stylesheet" type="text/css" href="css/course_detail.css">
 <div class="contents">
-<?= $this->get_err_flag(); ?>
-<h5><strong>確認テスト</strong></h5>
-<form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
-<a href="member_list.php">一覧に戻る</a>
-
-<div class="Q1">Q1
-    <label><p>C#の変数宣言で正しいものはどれか</p></label><br>
-    <form>
-        <label>
-            <input type="radio" name="choice" value="option1">
-            int num = 10;
-        </label><br>
-
-        <label>
-            <input type="radio" name="choice" value="option2">
-            var num = 10:
-        </label><br>
-
-        <label>
-            <input type="radio" name="choice" value="option3">
-            let num = 10;
-        </label>
-    </form>
-</div>
-
-<button type="submit" class="send">回答</button>
-<input type="hidden" name="func" value="" />
-<input type="hidden" name="param" value="" />
-<input type="hidden" name="member_id" value="<?= $member_id; ?>" />
-<p class="text-center"><?= $this->get_switch(); ?></p>
+<h5><strong>問題一覧</strong></h5>
+<form name="form1" action="<?= $this->get_tgt_uri(); ?>" method="post" >
+<p><a href="testcreate.php">新規</a></p>
+<p><?= $this->get_page_block(); ?></p>
+<tr>
+<th class="text-center">タイトルみたいなやつ</th><br>
+</tr>
+<?= $this->get_question_rows(); ?>
+<input type="hidden" name="func" value="" >
+<input type="hidden" name="param" value="" >
 </form>
 </div>
 <!-- /コンテンツ　-->
@@ -257,14 +236,13 @@ $page_obj = new cnode();
 //ヘッダ追加
 $page_obj->add_child(cutil::create('cheader'));
 //本体追加
-$page_obj->add_child($cmain_obj = cutil::create('cmain_node'));
+$page_obj->add_child($main_obj = cutil::create('cmain_node'));
 //フッタ追加
 $page_obj->add_child(cutil::create('cfooter'));
 //構築時処理
 $page_obj->create();
 //本体実行（表示前処理）
-$cmain_obj->execute();
-
+$main_obj->execute();
 //ページ全体を表示
 $page_obj->display();
 

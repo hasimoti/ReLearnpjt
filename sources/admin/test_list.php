@@ -6,7 +6,7 @@
 */
 
 //ライブラリをインクルード
-require_once("common/libs.php");
+require_once("../common/libs.php");
 
 $err_array = array();
 $err_flag = 0;
@@ -131,7 +131,7 @@ class cmain_node extends cnode {
 {$value['question_id']}
 </td>
 <td width="65%" class="text-center">
-<a href="question_detail.php?pid={$value['question_id']}{$urlparam}">{$value['question_name']}</a>
+<a href="testcreate.php?pid={$value['question_id']}{$urlparam}">{$value['question_name']}</a>
 </td>
 <td width="15%" class="text-center">
 <input type="button" value="削除確認" onClick="del_func_form({$value['question_id']},'{$javamsg}');" />
@@ -188,7 +188,7 @@ END_BLOCK;
 <div class="contents">
 <h5><strong>問題一覧</strong></h5>
 <form name="form1" action="<?= $this->get_tgt_uri(); ?>" method="post" >
-<p><a href="question_detail.php">新規</a></p>
+<p><a href="testcreate.php">新規</a></p>
 <p><?= $this->get_page_block(); ?></p>
 <table class="table table-bordered">
 <tr>

@@ -42,20 +42,20 @@ class cmain_node extends cnode {
 		global $ERR_STR;
 		global $admin_master_id;
 		global $admin_name;
-		if(isset($_SESSION['tmY2024_adm']['err']) && $_SESSION['tmY2024_adm']['err'] != ""){
-		    $ERR_STR = $_SESSION['tmY2024_adm']['err'];
+		if(isset($_SESSION['tmB2025_adm']['err']) && $_SESSION['tmB2025_adm']['err'] != ""){
+		    $ERR_STR = $_SESSION['tmB2025_adm']['err'];
 		}
 		//このセッションをクリア
-		$_SESSION['tmY2024_adm'] = array();
+		$_SESSION['tmB2025_adm'] = array();
 
 		if(isset($_POST['admin_login']) && isset($_POST['admin_password'])){
 		    if($this->chk_admin_login(
 		        strip_tags($_POST['admin_login']),
 		        strip_tags($_POST['admin_password']))){
 		        session_start();
-		        $_SESSION['tmY2024_adm']['admin_login'] = strip_tags($_POST['admin_login']);
-		        $_SESSION['tmY2024_adm']['admin_master_id'] = $admin_master_id;
-		        $_SESSION['tmY2024_adm']['admin_name'] = $admin_name;
+		        $_SESSION['tmB2025_adm']['admin_login'] = strip_tags($_POST['admin_login']);
+		        $_SESSION['tmB2025_adm']['admin_master_id'] = $admin_master_id;
+		        $_SESSION['tmB2025_adm']['admin_name'] = $admin_name;
 		        cutil::redirect_exit("index.php");
 		    }
 		}
