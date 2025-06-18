@@ -137,8 +137,6 @@ class cmain_node extends cnode {
 
 //ページを作成
 $page_obj = new cnode();
-//ヘッダ追加(ログイン用)
-$page_obj->add_child(cutil::create('clogin_header'));
 //本体追加
 $page_obj->add_child($main_obj = cutil::create('cmain_node'));
 //フッタ追加
