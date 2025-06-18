@@ -152,6 +152,7 @@ Q{$value['question_id']}
 		<input type="radio" name="choice" value="option3">
 		{$value['choice3']}<br>
 	<label>
+<form>
 </td>
 </tr>
 END_BLOCK;
