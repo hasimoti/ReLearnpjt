@@ -31,11 +31,10 @@ if (empty($_SESSION['is_admin'])) {
 </head>
 <body>
     <div class="header">
-        <a href="admin_dashboardlog.php">ホーム</a>
-        <a href="admin_login_manage.php">ログイン情報</a>
-        <a href="course_manage.php">講座管理</a>
-        <a href="test_manage.php">テスト管理</a>
-        <a href="log.php">ログ</a>
+        <a href="admin_dashboard.php">ホーム</a>
+        <a href="login_create.php">ログイン情報</a>
+        <a href="courseupload.php">講座管理</a>
+        <a href="testcreate.php">テスト管理</a>
     </div>
     <h1>管理者ダッシュボード</h1>
     <p>ようこそ、管理者さん！</p>
