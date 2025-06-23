@@ -261,27 +261,127 @@ END_BLOCK;
 //PHPブロック終了
 ?>
 <!-- コンテンツ　-->
+ <link rel="stylesheet" href="../css/courseupload.css">
 <div class="contents">
 <?= $this->get_err_flag(); ?>
 <h5><strong>講座詳細</strong></h5>
 <form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
 <a href="course_list.php">一覧に戻る</a>
-<table class="table table-bordered">
-<tr>
-<th class="text-center">ID</th>
-<td width="70%"><?= $this->get_course_id_txt(); ?></td>
-</tr>
-<tr>
-<th class="text-center">講座名</th>
-<td width="70%"><?= $this->get_course_name(); ?></td>
-</tr>
-</table>
+ 
+<form action="video_save.php" method="post">
+  <h2>動画を編集</h2>
+
+<iframe width="660" height="415" id="videoFrame" class="mov" src="https://drive.google.com/file/d/1R1AzXZfQkXbilBmG7XWFtnVwPqOOLgHF/preview" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<button type="button" id="reload" >更新</button><br>
+  <label>タイトル</label><br>
+  <input type="text" name="title" required><br><br>
+
+  <label>カテゴリ</label><br>
+  <select name="category">
+    <option value="プログラミング">プログラミング</option>
+    <option value="デザイン">デザイン</option>
+    <option value="ビジネス">ビジネス</option>
+  </select><br><br>
+
+  <label>概要</label><br>
+  <textarea name="description" rows="4" cols="50" required></textarea><br><br>
+
+  <label>動画リンク（Google Drive共有リンク）</label><br>
+  <input type="url" id="urlv" name="video_url" required><br><br>
+ <input type="submit" value="保存" class="btn btn-primary">
+
+  <a href="testcreate.php" class="btn btn-secondary">テスト作成</a>
+
+ <!-- 既存のテストを選ぶ -->
+  <label for="test_id">関連テスト</label>
+  <select name="test_id" id="test_id">
+    <option value="">-- テストを選択してください --</option>
+   <!-- 
+      // テスト一覧をDBから取得（例）
+      $pdo = new PDO("mysql:host=localhost;dbname=your_db", "user", "pass");
+      $stmt = $pdo->query("SELECT id, name FROM tests");
+      while ($row = $stmt->fetch()) {
+        echo "<option value='{$row['id']}'>{$row['name']}</option>";
+      }
+-->
+  </select>
+
+
+
+
+
+ 
+</form>
+
+
+
+
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />
 <input type="hidden" name="course_id" value="<?= $course_id; ?>" />
 <p class="text-center"><?= $this->get_switch(); ?></p>
 </form>
 </div>
+
+
+
+  <h2>動画アップロード</h2>
+<form id="uploadForm">
+  <input type="file" id="fileInput" name="file" accept="video/*" required />
+  <button type="submit">アップロード</button>
+</form>
+<p id="result"></p>
+
+
+
+<script>
+
+    const movup = () => 
+{
+    const iframe = document.getElementById('videoFrame'); // ← ここで取得
+
+    let url = document.getElementById('urlv').value;
+
+    if (url.includes("view?usp=sharing")) {
+      // view?usp=sharing を削除して preview に置き換え
+      iframe.src = url.replace("view?usp=sharing", "preview");
+    } else {
+      iframe.src = url;
+    }
+
+}
+const seikinsan = () => 
+{
+    const iframe = document.getElementById('videoFrame'); // ← ここで取得
+    iframe.src = "https://www.youtube.com/embed/uGLVtWojYiQ?si=G37T6p29PhgjqCly";
+}
+
+
+
+ document.getElementById('reloada').addEventListener('click',seikinsan);
+document.getElementById('reload').addEventListener('click',movup);
+
+
+
+ document.getElementById('uploadForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  const file = document.getElementById('fileInput').files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+
+  const response = await fetch('https://script.google.com/macros/s/AKfycbyvVQ7R8S17EtW1tQijCiTgyZ_Dffy49UCwd4dFRRx1/dev', {
+    method: 'POST',
+    body: formData,
+  });
+
+  const result = await response.text();
+  document.getElementById('result').innerText = result;
+});
+
+
+
+    </script>
 <!-- /コンテンツ　-->
 <?php 
 //PHPブロック再開
