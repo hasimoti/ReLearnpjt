@@ -261,21 +261,72 @@ END_BLOCK;
 //PHPブロック終了
 ?>
 <!-- コンテンツ　-->
+ <link rel="stylesheet" href="../css/test_creare.css">
 <div class="contents">
 <?= $this->get_err_flag(); ?>
 <h5><strong>問題詳細</strong></h5>
 <form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
 <a href="question_list.php">一覧に戻る</a>
-<table class="table table-bordered">
-<tr>
-<th class="text-center">ID</th>
-<td width="70%"><?= $this->get_question_id_txt(); ?></td>
-</tr>
-<tr>
-<th class="text-center">問題名</th>
-<td width="70%"><?= $this->get_question_name(); ?></td>
-</tr>
-</table>
+
+
+
+
+
+  <div class="container">
+    <aside class="sidebar">
+      <h3>ビジネスマナー</h3>
+      <ul>
+        <li class="active">入社初日マナーテスト</li>
+        <li>+ 新規カテゴリ</li>
+      </ul>
+      <div class="sidebar-footer">
+        <button class="save-btn">保存</button>
+        <button class="delete-btn">削除</button>
+      </div>
+    </aside>
+
+    <main class="content">
+      <h2>テスト作成</h2>
+      <form class="form">
+        <label>テスト名</label>
+        <input type="text" placeholder="入社初日マナーテスト">
+
+        <label>説明</label>
+        <textarea placeholder="このテストの目的を記入してください"></textarea>
+
+        <label>制限時間</label>
+        <select>
+          <option>5分</option>
+          <option selected>10分</option>
+          <option>15分</option>
+        </select>
+
+        <label>問題文</label>
+        <input type="text" placeholder="入社初日にかけるべき服装として適切なものを選びなさい">
+
+        <div class="choices">
+          <label><input type="radio" name="answer"> スーツ</label>
+          <label><input type="radio" name="answer"> カジュアルな服装</label>
+          <label><input type="radio" name="answer"> Tシャツ・ジーンズ</label>
+          <label><input type="radio" name="answer"> オフィスカジュアル</label>
+        </div>
+
+        <label>解説（任意）</label>
+        <input type="text" placeholder="問題に対する補足など">
+
+        <button type="button" class="add-question">＋ 問題を追加</button>
+
+        <div class="button-group">
+          <button type="submit">下書き保存</button>
+          <button type="button" class="preview">プレビュー</button>
+          <button type="button" class="publish">公開する</button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+
+
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />
 <input type="hidden" name="question_id" value="<?= $question_id; ?>" />
