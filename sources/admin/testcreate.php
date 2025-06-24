@@ -261,7 +261,7 @@ END_BLOCK;
 //PHPブロック終了
 ?>
 <!-- コンテンツ　-->
- <link rel="stylesheet" href="../css/test_creare.css">
+ <link rel="stylesheet" href="../css/test_create.css">
 <div class="contents">
 <?= $this->get_err_flag(); ?>
 <h5><strong>問題詳細</strong></h5>
