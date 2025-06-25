@@ -135,3 +135,28 @@ body {
   background-color: #2196f3;
   color: #fff;
 }
+
+.question-block {
+  background: #fefefe;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+.test-item {
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.test-item.active {
+  background: #e0f0ff;
+  font-weight: bold;
+}
+
+.add-category {
+  padding: 10px;
+  color: #3f8efc;
+  cursor: pointer;
+}
