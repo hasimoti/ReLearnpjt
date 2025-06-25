@@ -273,55 +273,39 @@ END_BLOCK;
 
 
   <div class="container">
-    <aside class="sidebar">
-      <h3>ビジネスマナー</h3>
-      <ul>
-        <li class="active">入社初日マナーテスト</li>
-        <li>+ 新規カテゴリ</li>
-      </ul>
-      <div class="sidebar-footer">
-        <button class="save-btn">保存</button>
-        <button class="delete-btn">削除</button>
-      </div>
-    </aside>
+   <aside class="sidebar">
+  <h3>テスト一覧</h3>
+  <ul id="testList">
+    <li class="test-item active" onclick="selectTest(this)">入社初日マナーテスト</li>
+  </ul>
+  <div id="newCategoryArea"></div>
+  <li class="add-category" onclick="showNewCategoryInput()">+ 新規カテゴリ</li>
+
+  <div class="sidebar-footer">
+    <button class="save-btn" onclick="saveAllTests()">保存</button>
+    <button class="delete-btn">削除</button>
+  </div>
+</aside>
 
     <main class="content">
       <h2>テスト作成</h2>
-      <form class="form">
-        <label>テスト名</label>
-        <input type="text" placeholder="入社初日マナーテスト">
+      <div class="form">
+      
+<!-- JSで生成される問題表示エリア -->
+<div class="question-list" id="questionList">
+  <!-- 初期で1問だけ表示させる -->
+</div>
 
-        <label>説明</label>
-        <textarea placeholder="このテストの目的を記入してください"></textarea>
+<!-- 「問題を追加」ボタン -->
+<button type="button" class="add-question" onclick="addQuestion()">＋ 問題を追加</button>
 
-        <label>制限時間</label>
-        <select>
-          <option>5分</option>
-          <option selected>10分</option>
-          <option>15分</option>
-        </select>
-
-        <label>問題文</label>
-        <input type="text" placeholder="入社初日にかけるべき服装として適切なものを選びなさい">
-
-        <div class="choices">
-          <label><input type="radio" name="answer"> スーツ</label>
-          <label><input type="radio" name="answer"> カジュアルな服装</label>
-          <label><input type="radio" name="answer"> Tシャツ・ジーンズ</label>
-          <label><input type="radio" name="answer"> オフィスカジュアル</label>
-        </div>
-
-        <label>解説（任意）</label>
-        <input type="text" placeholder="問題に対する補足など">
-
-        <button type="button" class="add-question">＋ 問題を追加</button>
-
-        <div class="button-group">
-          <button type="submit">下書き保存</button>
-          <button type="button" class="preview">プレビュー</button>
-          <button type="button" class="publish">公開する</button>
-        </div>
-      </form>
+  <div class="button-group">
+    <button type="submit">下書き保存</button>
+    <button type="button" class="preview">プレビュー</button>
+    <button type="button" class="publish">公開する</button>
+  </div>
+       
+	</div>
     </main>
   </div>
 
@@ -332,6 +316,101 @@ END_BLOCK;
 <input type="hidden" name="question_id" value="<?= $question_id; ?>" />
 <p class="text-center"><?= $this->get_switch(); ?></p>
 </form>
+
+<script>
+let questionCount = 0;
+let testIdCounter = 1;
+let selectedTestElement = null;
+
+function showNewCategoryInput() {
+  const area = document.getElementById("newCategoryArea");
+  area.innerHTML = `
+    <input type="text" id="newTestName" placeholder="新しいテスト名を入力">
+    <button onclick="addNewTest()">追加</button>
+  `;
+}
+
+function addNewTest() {
+  const name = document.getElementById("newTestName").value.trim();
+  if (!name) return;
+
+  const li = document.createElement("li");
+  li.className = "test-item";
+  li.textContent = name;
+  li.onclick = function() { selectTest(li); };
+
+  document.getElementById("testList").appendChild(li);
+  document.getElementById("newCategoryArea").innerHTML = "";
+}
+
+function selectTest(el) {
+  document.querySelectorAll(".test-item").forEach(item => item.classList.remove("active"));
+  el.classList.add("active");
+  selectedTestElement = el;
+  // ここで右側に表示を切り替える
+  document.querySelector(".form").innerHTML = `
+    <h2>${el.textContent} の編集</h2>
+    <label>テスト名</label>
+    <input type="text" value="${el.textContent}"><br>
+    <!-- 以下省略、選択式や記述式の入力欄など -->
+  `;
+}
+
+function saveAllTests() {
+  const testTitles = Array.from(document.querySelectorAll(".test-item")).map(el => el.textContent);
+  console.log("保存されるテスト一覧：", testTitles);
+
+  // 本来ここで DB への保存処理を行う（Ajaxやフォーム送信など）
+  alert("保存しました（仮）");
+}
+// ページ読み込み時に1問追加
+window.onload = () => {
+  addQuestion();
+};
+
+function addQuestion() {
+  questionCount++;
+
+  const qWrap = document.createElement('div');
+  qWrap.className = 'question-block';
+  qWrap.innerHTML = `
+    <hr>
+    <label>問題${questionCount}</label>
+    <input type="text" name="question_${questionCount}" placeholder="問題文を入力してください">
+
+    <label>形式</label>
+    <select name="type_${questionCount}" onchange="toggleType(this, ${questionCount})">
+      <option value="choice">選択式</option>
+      <option value="text">記述式</option>
+    </select>
+
+    <div class="choice-group" id="choice_${questionCount}">
+      <label><input type="radio" name="answer_${questionCount}" value="1"> <input type="text" name="choice_${questionCount}_1" placeholder="選択肢1"></label><br>
+      <label><input type="radio" name="answer_${questionCount}" value="2"> <input type="text" name="choice_${questionCount}_2" placeholder="選択肢2"></label><br>
+      <label><input type="radio" name="answer_${questionCount}" value="3"> <input type="text" name="choice_${questionCount}_3" placeholder="選択肢3"></label><br>
+      <label><input type="radio" name="answer_${questionCount}" value="4"> <input type="text" name="choice_${questionCount}_4" placeholder="選択肢4"></label>
+    </div>
+
+    <div class="text-answer" id="text_${questionCount}" style="display: none;">
+      <label>記述式回答欄（ユーザーが記述）</label>
+      <textarea name="answer_text_${questionCount}" rows="3" placeholder="回答例などを記述（任意）"></textarea>
+    </div>
+
+    <label>解説（任意）</label>
+    <input type="text" name="explain_${questionCount}" placeholder="解説を入力（任意）">
+  `;
+
+  document.getElementById('questionList').appendChild(qWrap);
+}
+
+function toggleType(selectObj, num) {
+  const type = selectObj.value;
+  document.getElementById(`choice_${num}`).style.display = (type === 'choice') ? 'block' : 'none';
+  document.getElementById(`text_${num}`).style.display = (type === 'text') ? 'block' : 'none';
+}
+</script>
+
+
 </div>
 <!-- /コンテンツ　-->
 <?php 
