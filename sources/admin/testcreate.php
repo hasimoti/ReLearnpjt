@@ -7,6 +7,10 @@
 
 //ライブラリをインクルード
 require_once("../common/libs.php");
+session_start();
+$pdo = new PDO('mysql:host=localhost;dbname=j2025bdb;charset=utf8', 'j2025bdb', '9yafMZ9YCfg1S16k!');
+
+$error = '';
 
 $err_array = array();
 $err_flag = 0;
@@ -159,6 +163,48 @@ class cmain_node extends cnode {
 			$pid = $change_obj->insert_core(false,'question',$dataarr,false);
 			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?pid=' . $pid);
 		}
+
+		// ✅ ここから下に「問題＋選択肢 or 記述式」の保存処理を書く
+
+	// 問題は複数あるのでループ処理で
+	for ($i = 1; isset($_POST["question_$i"]); $i++) {
+		$question_text = $_POST["question_$i"];
+		$type = $_POST["type_$i"];
+		$explain = $_POST["explain_$i"];
+
+		// 問題本体をINSERT
+		$question_data = array(
+			'question_text' => $question_text,
+			'type' => $type,
+			'explanation' => $explain,
+			'test_id' => $question_id
+		);
+		$question_obj = new crecord();
+		$qid = $question_obj->insert_core(false, 'questions', $question_data, false);
+
+		if ($type === 'choice') {
+			$correct = $_POST["answer_$i"];
+			for ($j = 1; isset($_POST["choice_{$i}_$j"]); $j++) {
+				$choice_data = array(
+					'question_id' => $qid,
+					'choice_text' => $_POST["choice_{$i}_$j"],
+					'is_correct' => ($correct == $j ? 1 : 0)
+				);
+				$choice_obj = new crecord();
+				$choice_obj->insert_core(false, 'choices', $choice_data, false);
+			}
+		} elseif ($type === 'text') {
+			$text_data = array(
+				'question_id' => $qid,
+				'answer_text' => $_POST["answer_text_$i"]
+			);
+			$txt_obj = new crecord();
+			$txt_obj->insert_core(false, 'text_answers', $text_data, false);
+		}
+	}
+
+	// 完了後リダイレクト
+	cutil::redirect_exit($_SERVER['PHP_SELF'] . '?pid=' . $question_id);
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -317,6 +363,44 @@ END_BLOCK;
 <p class="text-center"><?= $this->get_switch(); ?></p>
 </form>
 
+
+<?php
+// データ取得（test_idベースなどに応じて変更）仮に$question_idで取得
+if ($question_id > 0) {
+    $pdo = cdb::connect();
+    $sql = "SELECT * FROM questions WHERE test_id = :test_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':test_id', $question_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // 各質問に対して選択肢を取得
+    foreach ($questions as &$q) {
+        if ($q['type'] === 'choice') {
+            $sql2 = "SELECT * FROM choices WHERE question_id = :qid";
+            $stmt2 = $pdo->prepare($sql2);
+            $stmt2->bindValue(':qid', $q['id'], PDO::PARAM_INT);
+            $stmt2->execute();
+            $q['choices'] = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+        } elseif ($q['type'] === 'text') {
+            $sql3 = "SELECT * FROM text_answers WHERE question_id = :qid";
+            $stmt3 = $pdo->prepare($sql3);
+            $stmt3->bindValue(':qid', $q['id'], PDO::PARAM_INT);
+            $stmt3->execute();
+            $q['text_answer'] = $stmt3->fetch(PDO::FETCH_ASSOC);
+        }
+    }
+
+    // JSに渡すためにJSONに変換
+    echo "<script>const loadedQuestions = " . json_encode($questions) . ";</script>";
+} else {
+    echo "<script>const loadedQuestions = [];</script>";
+}
+?>
+
+
+
+
 <script>
 let questionCount = 0;
 let testIdCounter = 1;
@@ -389,7 +473,45 @@ function saveAllTests() {
 }
 // ページ読み込み時に1問追加
 window.onload = () => {
-  addQuestion();
+  if (loadedQuestions.length > 0) {
+    loadedQuestions.forEach((q, index) => {
+      questionCount++;
+      const qNum = questionCount;
+
+      const qWrap = document.createElement('div');
+      qWrap.className = 'question-block';
+      qWrap.innerHTML = `
+        <hr>
+        <label>問題${qNum}</label>
+        <input type="text" name="question_${qNum}" value="${q.question_text}">
+
+        <label>形式</label>
+        <select name="type_${qNum}" onchange="toggleType(this, ${qNum})">
+          <option value="choice" ${q.type === 'choice' ? 'selected' : ''}>選択式</option>
+          <option value="text" ${q.type === 'text' ? 'selected' : ''}>記述式</option>
+        </select>
+
+        <div class="choice-group" id="choice_${qNum}" style="${q.type === 'choice' ? '' : 'display:none'}">
+          ${generateChoiceHTMLFromDB(qNum, q.choices || [])}
+          <button type="button" onclick="addChoice(${qNum})">+ 選択肢を追加</button>
+          <button type="button" onclick="removeChoice(${qNum})">− 選択肢を削除</button>
+        </div>
+
+        <div class="text-answer" id="text_${qNum}" style="${q.type === 'text' ? '' : 'display:none'}">
+          <label>記述式回答欄（ユーザーが記述）</label>
+          <textarea name="answer_text_${qNum}" rows="3">${q.text_answer?.answer_text || ''}</textarea>
+        </div>
+
+        <label>解説（任意）</label>
+        <input type="text" name="explain_${qNum}" value="${q.explanation || ''}">
+      `;
+
+      document.getElementById('questionList').appendChild(qWrap);
+      choiceCount[qNum] = (q.choices?.length || 2);
+    });
+  } else {
+    addQuestion(); // 何もなければ1問だけ追加
+  }
 };
 
 function addQuestion() {
@@ -484,6 +606,22 @@ function removeChoice(qNum) {
     choiceCount[qNum]--;
   }
 }
+
+function generateChoiceHTMLFromDB(qNum, choices) {
+  let html = '';
+  choices.forEach((c, index) => {
+    const num = index + 1;
+    html += `
+      <label>
+        <input type="radio" name="answer_${qNum}" value="${num}" ${c.is_correct == 1 ? 'checked' : ''}>
+        <input type="text" name="choice_${qNum}_${num}" value="${c.choice_text}" placeholder="選択肢${num}">
+      </label><br>
+    `;
+  });
+  return html;
+}
+
+
 
 </script>
 
