@@ -347,13 +347,37 @@ function selectTest(el) {
   document.querySelectorAll(".test-item").forEach(item => item.classList.remove("active"));
   el.classList.add("active");
   selectedTestElement = el;
-  // ここで右側に表示を切り替える
+
+  // フォーム全体を初期化
   document.querySelector(".form").innerHTML = `
     <h2>${el.textContent} の編集</h2>
+
     <label>テスト名</label>
     <input type="text" value="${el.textContent}"><br>
-    <!-- 以下省略、選択式や記述式の入力欄など -->
+
+    <label>制限時間</label>
+    <select>
+      <option>5分</option>
+      <option selected>10分</option>
+      <option>15分</option>
+    </select><br>
+
+    <div class="question-list" id="questionList">
+      <!-- ここにJSで問題が追加される -->
+    </div>
+
+    <button type="button" class="add-question" onclick="addQuestion()">＋ 問題を追加</button>
+
+    <div class="button-group">
+      <button type="submit">下書き保存</button>
+      <button type="button" class="preview">プレビュー</button>
+      <button type="button" class="publish">公開する</button>
+    </div>
   `;
+
+  // 既存または1問目を表示
+  questionCount = 0;
+  addQuestion(); // 初期1問だけ追加、必要ならここでデータをロードして複数出す
 }
 
 function saveAllTests() {
@@ -384,12 +408,15 @@ function addQuestion() {
       <option value="text">記述式</option>
     </select>
 
-    <div class="choice-group" id="choice_${questionCount}">
-      <label><input type="radio" name="answer_${questionCount}" value="1"> <input type="text" name="choice_${questionCount}_1" placeholder="選択肢1"></label><br>
-      <label><input type="radio" name="answer_${questionCount}" value="2"> <input type="text" name="choice_${questionCount}_2" placeholder="選択肢2"></label><br>
-      <label><input type="radio" name="answer_${questionCount}" value="3"> <input type="text" name="choice_${questionCount}_3" placeholder="選択肢3"></label><br>
-      <label><input type="radio" name="answer_${questionCount}" value="4"> <input type="text" name="choice_${questionCount}_4" placeholder="選択肢4"></label>
-    </div>
+   
+
+<div class="choice-group" id="choice_${questionCount}">
+  <div class="choices" id="choices_${questionCount}">
+    ${generateChoiceHTML(questionCount, 2)}
+  </div>
+  <button type="button" onclick="addChoice(${questionCount})">+ 選択肢を追加</button>
+  <button type="button" onclick="removeChoice(${questionCount})">− 選択肢を削除</button>
+</div>
 
     <div class="text-answer" id="text_${questionCount}" style="display: none;">
       <label>記述式回答欄（ユーザーが記述）</label>
@@ -398,9 +425,12 @@ function addQuestion() {
 
     <label>解説（任意）</label>
     <input type="text" name="explain_${questionCount}" placeholder="解説を入力（任意）">
+
+
   `;
 
   document.getElementById('questionList').appendChild(qWrap);
+  choiceCount[questionCount] = 2; // 初期は2択
 }
 
 function toggleType(selectObj, num) {
@@ -408,6 +438,53 @@ function toggleType(selectObj, num) {
   document.getElementById(`choice_${num}`).style.display = (type === 'choice') ? 'block' : 'none';
   document.getElementById(`text_${num}`).style.display = (type === 'text') ? 'block' : 'none';
 }
+
+let choiceCount = {};
+
+function generateChoiceHTML(qNum, count) {
+  let html = '';
+  for (let i = 1; i <= count; i++) {
+    html += `
+      <label>
+        <input type="radio" name="answer_${qNum}" value="${i}">
+        <input type="text" name="choice_${qNum}_${i}" placeholder="選択肢${i}">
+      </label><br>
+    `;
+  }
+  return html;
+}
+
+function addChoice(qNum) {
+  if (!choiceCount[qNum]) choiceCount[qNum] = 2;
+  if (choiceCount[qNum] >= 4) return;
+
+  choiceCount[qNum]++;
+  const newChoice = document.createElement('label');
+  newChoice.innerHTML = `
+    <input type="radio" name="answer_${qNum}" value="${choiceCount[qNum]}">
+    <input type="text" name="choice_${qNum}_${choiceCount[qNum]}" placeholder="選択肢${choiceCount[qNum]}">
+  `;
+  const choiceContainer = document.getElementById(`choices_${qNum}`);
+  choiceContainer.appendChild(newChoice);
+  choiceContainer.appendChild(document.createElement('br'));
+}
+
+function removeChoice(qNum) {
+  if (choiceCount[qNum] <= 2) return;
+
+  const choiceContainer = document.getElementById(`choices_${qNum}`);
+  const labels = choiceContainer.querySelectorAll('label');
+  const brs = choiceContainer.querySelectorAll('br');
+
+  if (labels.length > 0) {
+    choiceContainer.removeChild(labels[labels.length - 1]);
+    if (brs.length > 0) {
+      choiceContainer.removeChild(brs[brs.length - 1]);
+    }
+    choiceCount[qNum]--;
+  }
+}
+
 </script>
 
 
