@@ -3,90 +3,85 @@
   font-family: "Helvetica Neue", sans-serif;
 }
 
-body {
+html, body {
+  height: 100%;
   margin: 0;
-  background: #f9f9f9;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .container {
   display: flex;
-  min-height: 100vh;
+  flex-grow: 1;
 }
 
+/* サイドバー */
 .sidebar {
-  width: 220px;
-  background: #ffffff;
+  width: 250px;
+  background: #fff;
   padding: 20px;
   border-right: 1px solid #ddd;
+  flex-shrink: 0;
 }
-
 .sidebar h3 {
   font-size: 16px;
   margin-bottom: 10px;
 }
-
 .sidebar ul {
   list-style: none;
   padding: 0;
 }
-
 .sidebar ul li {
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
 }
-
 .sidebar ul li.active {
   background: #e0f0ff;
   font-weight: bold;
 }
-
 .sidebar-footer {
   margin-top: 40px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
 .save-btn, .delete-btn {
   padding: 8px;
   border: none;
   cursor: pointer;
   border-radius: 4px;
 }
-
 .save-btn {
   background-color: #3f8efc;
   color: #fff;
 }
-
 .delete-btn {
   background-color: #f44336;
   color: #fff;
 }
 
+/* メインコンテンツ */
 .content {
-  flex: 1;
+  flex-grow: 1;
   padding: 30px;
+  background-color: #f9f9f9;
 }
 
-.content h2 {
-  margin-bottom: 20px;
-}
-
+/* フォーム */
 .form {
-  background: #fff;
-  padding: 20px;
-  border-radius: 6px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: none;
 }
-
 .form label {
   display: block;
   margin-top: 15px;
   font-weight: bold;
 }
-
 .form input[type="text"],
 .form textarea,
 .form select {
@@ -96,7 +91,6 @@ body {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
 .choices {
   margin-top: 10px;
   display: flex;
@@ -118,19 +112,16 @@ body {
   display: flex;
   gap: 10px;
 }
-
 .button-group button {
   padding: 10px 16px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
-
 .button-group .preview {
   background-color: #4caf50;
   color: #fff;
 }
-
 .button-group .publish {
   background-color: #2196f3;
   color: #fff;
@@ -144,19 +135,191 @@ body {
   border-radius: 5px;
 }
 
+/* テストアイテム */
 .test-item {
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
 }
-
 .test-item.active {
   background: #e0f0ff;
   font-weight: bold;
 }
-
 .add-category {
   padding: 10px;
   color: #3f8efc;
   cursor: pointer;
 }
+
+/* フッター固定 */
+footer {
+  margin-top: auto;
+  background: #f8f8f8;
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}* {
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", sans-serif;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-grow: 1;
+}
+
+/* サイドバー */
+.sidebar {
+  width: 250px;
+  background: #fff;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  flex-shrink: 0;
+}
+.sidebar h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+.sidebar ul li {
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.sidebar ul li.active {
+  background: #e0f0ff;
+  font-weight: bold;
+}
+.sidebar-footer {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.save-btn, .delete-btn {
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.save-btn {
+  background-color: #3f8efc;
+  color: #fff;
+}
+.delete-btn {
+  background-color: #f44336;
+  color: #fff;
+}
+
+/* メインコンテンツ */
+.content {
+  flex-grow: 1;
+  padding: 30px;
+  background-color: #f9f9f9;
+}
+
+/* フォーム */
+.form {
+  width: 100%;
+  max-width: none;
+}
+.form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+.form input[type="text"],
+.form textarea,
+.form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.choices {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.add-question {
+  margin-top: 20px;
+  background: none;
+  border: none;
+  color: #3f8efc;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.button-group {
+  margin-top: 30px;
+  display: flex;
+  gap: 10px;
+}
+.button-group button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.button-group .preview {
+  background-color: #4caf50;
+  color: #fff;
+}
+.button-group .publish {
+  background-color: #2196f3;
+  color: #fff;
+}
+
+.question-block {
+  background: #fefefe;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+/* テストアイテム */
+.test-item {
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.test-item.active {
+  background: #e0f0ff;
+  font-weight: bold;
+}
+.add-category {
+  padding: 10px;
+  color: #3f8efc;
+  cursor: pointer;
+}
+
+/* フッター固定 */
+footer {
+  margin-top: auto;
+  background: #f8f8f8;
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
+
+
+
