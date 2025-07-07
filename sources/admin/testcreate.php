@@ -289,7 +289,6 @@ END_BLOCK;
 		else{
 			$ret_str =<<<END_BLOCK
 
-<input type="button"  value="確認" onClick="set_func_form('conf','')"/>
 END_BLOCK;
 		}
 		return $ret_str;
@@ -308,7 +307,7 @@ END_BLOCK;
 ?>
 <!-- コンテンツ　-->
  <link rel="stylesheet" href="../css/test_create.css">
-<div class="contents">
+<div class="container">
 	<?= $this->get_err_flag(); ?>
 	<h5><strong>問題詳細</strong></h5>
 	<form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
@@ -316,33 +315,45 @@ END_BLOCK;
 
 
   		<div class="container">
-  <aside class="sidebar">
-    <!-- サイドバー -->
-  </aside>
+			<aside class="sidebar">
+				<!-- サイドバー -->
+				<h3>テスト一覧</h3>
+				<ul id="testList">
+					<li class="test-item active" onclick="selectTest(this)">入社初日マナーテスト</li>
+				</ul>
 
-  <main class="content">
-    <h2>テスト作成</h2>
-    <form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post">
-      <div class="form">
-        <div class="question-list" id="questionList">
-          <!-- 問題ブロックがJSで追加される -->
-        </div>
+				<div id="newCategoryArea"></div>
+				<li class="add-category" onclick="showNewCategoryInput()">＋ 新規カテゴリ</li>
 
-        <button type="button" class="add-question" onclick="addQuestion()">＋ 問題を追加</button>
+				<div class="sidebar-footer">
+					<button class="save-btn" onclick="saveAllTests()">保存</button>
+					<button class="delete-btn">削除</button>
+				</div>
+			</aside>
 
-        <div class="button-group">
-          <button type="submit">下書き保存</button>
-          <button type="button" class="preview">プレビュー</button>
-          <button type="button" class="publish">公開する</button>
-        </div>
-      </div>
+			<main class="content">
+				<h2>テスト作成</h2>
+				<form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post">
+					<div class="form">
+						<div class="question-list" id="questionList">
+						<!-- 問題ブロックがJSで追加される -->
+						</div>
 
-      <input type="hidden" name="func" value="" />
-      <input type="hidden" name="param" value="" />
-      <input type="hidden" name="question_id" value="<?= $question_id; ?>" />
-      <p class="text-center"><?= $this->get_switch(); ?></p>
-    </form>
-  </main>
+						<button type="button" class="add-question" onclick="addQuestion()">＋ 問題を追加</button>
+
+						<div class="button-group">
+							<button type="submit">下書き保存</button>
+							<button type="button" class="preview">プレビュー</button>
+							<button type="button" class="publish">公開する</button>
+						</div>
+					</div>
+
+					<input type="hidden" name="func" value="" />
+					<input type="hidden" name="param" value="" />
+					<input type="hidden" name="question_id" value="<?= $question_id; ?>" />
+					<p class="text-center"><?= $this->get_switch(); ?></p>
+				</form>
+			</main>
 </div>
 
 
