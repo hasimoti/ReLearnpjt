@@ -20,6 +20,8 @@ body {
   padding: 30px;
   background-color: #ffffff;
   overflow-y: auto;
+  max-width: 1600px; /* ←1200より広く */ 
+  width: 100%; /* ← 念のため追加 */
 }
 
 /* レイアウト調整 */
@@ -28,7 +30,9 @@ body {
   height: 100%;
   margin: 0 auto;
   padding: 0;
-  max-width: 1200px; /* 好みに応じて調整 */
+  /* max-width を削除または拡大 */
+  max-width: none;
+  width: 100%;
 }
 /* フッター固定 */
 footer {
@@ -90,9 +94,8 @@ footer {
 /* フォーム */
 .form {
   width: 100%;
-  max-width: none;  /* ←これがあるか確認。なければ追加 */
+  max-width: none; /* ← すでに書いてあるのでOK */
 }
-
 
 
 

@@ -7,8 +7,17 @@
 
 //ライブラリをインクルード
 require_once("../common/libs.php");
-session_start();
 $pdo = new PDO('mysql:host=localhost;dbname=j2025bdb;charset=utf8', 'j2025bdb', '9yafMZ9YCfg1S16k!');
+$test_list = [];
+
+$sql = "SELECT * FROM tests";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$test_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// JSONとしてJSに渡す
+echo "<script>const testListFromDB = " . json_encode($test_list) . ";</script>";
+
 
 $error = '';
 
@@ -407,14 +416,41 @@ let questionCount = 0;
 let testIdCounter = 1;
 let selectedTestElement = null;
 
+
 function showNewCategoryInput() {
-  const area = document.getElementById("newCategoryArea");
-  area.innerHTML = `
-    <input type="text" id="newTestName" placeholder="新しいテスト名を入力">
-    <button onclick="addNewTest()">追加</button>
+// 右側のテスト作成エリアで新規入力
+  selectedTestElement = null;
+
+  // テスト作成エリアに新規入力フォームを表示
+  document.querySelector(".form").innerHTML = `
+    <h2>新しいテストの作成</h2>
+
+    <label>テスト名</label>
+    <input type="text" id="newTestName" placeholder="新しいテスト名を入力"><br>
+
+    <label>制限時間</label>
+    <select id="newLimit">
+      <option>5分</option>
+      <option selected>10分</option>
+      <option>15分</option>
+    </select><br>
+
+    <div class="question-list" id="questionList">
+      <!-- ここにJSで問題が追加される -->
+    </div>
+
+    <button type="button" class="add-question" onclick="addQuestion()">＋ 問題を追加</button>
+
+    <div class="button-group">
+      <button onclick="addNewTest()">テスト追加</button>
+    </div>
   `;
+
+  questionCount = 0;
+  addQuestion(); // 最初の1問
 }
 
+//新規テスト作成
 function addNewTest() {
   const name = document.getElementById("newTestName").value.trim();
   if (!name) return;
@@ -472,6 +508,8 @@ function saveAllTests() {
   // 本来ここで DB への保存処理を行う（Ajaxやフォーム送信など）
   alert("保存しました（仮）");
 }
+
+let selectedTest = null;
 // ページ読み込み時に1問追加
 window.onload = () => {
   if (loadedQuestions.length > 0) {
@@ -513,13 +551,20 @@ window.onload = () => {
   } else {
     addQuestion(); // 何もなければ1問だけ追加
   }
+
+// ✅ 初期表示では新規カテゴリを入力させる
+  showNewCategoryInput();
+
 };
 
+//新規テスト作成
 function addQuestion() {
   questionCount++;
 
   const qWrap = document.createElement('div');
   qWrap.className = 'question-block';
+  qWrap.id = `question_block_${questionCount}`; // 削除用にID追加
+
   qWrap.innerHTML = `
     <hr>
     <label>問題${questionCount}</label>
@@ -531,15 +576,13 @@ function addQuestion() {
       <option value="text">記述式</option>
     </select>
 
-   
-
-<div class="choice-group" id="choice_${questionCount}">
-  <div class="choices" id="choices_${questionCount}">
-    ${generateChoiceHTML(questionCount, 2)}
-  </div>
-  <button type="button" onclick="addChoice(${questionCount})">+ 選択肢を追加</button>
-  <button type="button" onclick="removeChoice(${questionCount})">− 選択肢を削除</button>
-</div>
+    <div class="choice-group" id="choice_${questionCount}">
+      <div class="choices" id="choices_${questionCount}">
+        ${generateChoiceHTML(questionCount, 2)}
+      </div>
+      <button type="button" onclick="addChoice(${questionCount})">+ 選択肢を追加</button>
+      <button type="button" onclick="removeChoice(${questionCount})">− 選択肢を削除</button>
+    </div>
 
     <div class="text-answer" id="text_${questionCount}" style="display: none;">
       <label>記述式回答欄（ユーザーが記述）</label>
@@ -549,11 +592,84 @@ function addQuestion() {
     <label>解説（任意）</label>
     <input type="text" name="explain_${questionCount}" placeholder="解説を入力（任意）">
 
-
+    <!-- ✅ ここが追加される -->
+    <div style="text-align: right; margin-top: 10px;">
+      <button type="button" onclick="removeQuestion(${questionCount})" style="color: red;">🗑 問題を削除</button>
+    </div>
   `;
 
   document.getElementById('questionList').appendChild(qWrap);
   choiceCount[questionCount] = 2; // 初期は2択
+}
+
+// 問題削除
+function removeQuestion(qNum) {
+  const block = document.getElementById(`question_block_${qNum}`);
+  if (block) {
+    block.remove();
+  }
+
+  // 全ての問題ブロックを再取得
+  const blocks = document.querySelectorAll('.question-block');
+  questionCount = blocks.length; // 再カウント
+
+  choiceCount = {}; // リセット
+
+  blocks.forEach((block, index) => {
+    const newNum = index + 1;
+    block.id = `question_block_${newNum}`;
+
+    // labelとinputの書き換え
+    block.querySelectorAll("label").forEach(label => {
+      if (label.textContent.startsWith("問題")) {
+        label.textContent = `問題${newNum}`;
+      }
+    });
+
+    // 再設定するinputやselectなど
+    const questionInput = block.querySelector(`input[name^="question_"]`);
+    if (questionInput) questionInput.name = `question_${newNum}`;
+
+    const typeSelect = block.querySelector(`select[name^="type_"]`);
+    if (typeSelect) {
+      typeSelect.name = `type_${newNum}`;
+      typeSelect.setAttribute("onchange", `toggleType(this, ${newNum})`);
+    }
+
+    // 解説
+    const explainInput = block.querySelector(`input[name^="explain_"]`);
+    if (explainInput) explainInput.name = `explain_${newNum}`;
+
+    // 記述式
+    const textDiv = block.querySelector(`[id^="text_"]`);
+    if (textDiv) {
+      textDiv.id = `text_${newNum}`;
+      const textarea = textDiv.querySelector(`textarea[name^="answer_text_"]`);
+      if (textarea) textarea.name = `answer_text_${newNum}`;
+    }
+
+    // 選択式
+    const choiceDiv = block.querySelector(`[id^="choice_"]`);
+    if (choiceDiv) {
+      choiceDiv.id = `choice_${newNum}`;
+      const choicesContainer = block.querySelector(`[id^="choices_"]`);
+      if (choicesContainer) choicesContainer.id = `choices_${newNum}`;
+
+      // 選択肢の名前と値をリネーム
+      const labels = choicesContainer.querySelectorAll('label');
+      labels.forEach((label, i) => {
+        const radio = label.querySelector('input[type="radio"]');
+        const input = label.querySelector('input[type="text"]');
+        if (radio) radio.name = `answer_${newNum}`;
+        if (input) input.name = `choice_${newNum}_${i + 1}`;
+      });
+      choiceCount[newNum] = labels.length;
+    }
+
+    // 削除ボタンの関数も更新
+    const deleteBtn = block.querySelector('button[onclick^="removeQuestion"]');
+    if (deleteBtn) deleteBtn.setAttribute("onclick", `removeQuestion(${newNum})`);
+  });
 }
 
 function toggleType(selectObj, num) {
@@ -577,6 +693,7 @@ function generateChoiceHTML(qNum, count) {
   return html;
 }
 
+//選択肢追加
 function addChoice(qNum) {
   if (!choiceCount[qNum]) choiceCount[qNum] = 2;
   if (choiceCount[qNum] >= 4) return;
