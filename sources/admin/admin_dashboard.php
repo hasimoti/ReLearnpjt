@@ -37,6 +37,6 @@ if (empty($_SESSION['is_admin'])) {
         <a href="testcreate.php">テスト管理</a>
     </div>
     <h1>管理者ダッシュボード</h1>
-    <p>ようこそ、管理者さん！</p>
+    <p>システムの管理を行います</p>
 </body>
 </html>
