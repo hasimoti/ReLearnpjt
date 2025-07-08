@@ -60,7 +60,7 @@ class cheader extends cnode {
       </form>
 
       <div class="right">
-        <a href="http://150.95.36.201/~j2025b/admin" class="logo-button">管理者画面</a>
+        <a href="http://150.95.36.201/~j2025b/admin/admin_login.php" class="logo-button">管理者画面</a>
         <a href="common/login.php" class="logo-button">ロゴ</a>
         <a href="common/login.php" class="icon profile-icon"><img src="./img/アイコン.png" width="50px" ></a>
       </div>
