@@ -1,0 +1,210 @@
+* {
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", sans-serif;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* メインのテスト作成エリア */
+.content {
+  flex-grow: 1;
+  padding: 30px;
+  background-color: #ffffff;
+  overflow-y: auto;
+  max-width: 1600px; /* ←1200より広く */ 
+  width: 100%; /* ← 念のため追加 */
+}
+
+/* レイアウト調整 */
+.container {
+  display: flex;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+  /* max-width を削除または拡大 */
+  max-width: none;
+  width: 100%;
+}
+/* フッター固定 */
+footer {
+  margin-top: auto;
+  background: #f8f8f8;
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
+/* サイドバー */
+.sidebar {
+  width: 250px;
+  background-color: #f5f5f5;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+.sidebar h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+.sidebar ul li {
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.sidebar ul li.active {
+  background: #e0f0ff;
+  font-weight: bold;
+}
+.sidebar-footer {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.save-btn, .delete-btn {
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.save-btn {
+  background-color: #3f8efc;
+  color: #fff;
+}
+.delete-btn {
+  background-color: #f44336;
+  color: #fff;
+}
+
+
+
+/* フォーム */
+.form {
+  width: 100%;
+  max-width: none; /* ← すでに書いてあるのでOK */
+}
+
+
+
+.form label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+.form input[type="text"],
+.form textarea,
+.form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.choices {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.add-question {
+  margin-top: 20px;
+  background: none;
+  border: none;
+  color: #3f8efc;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ボタン調整 */
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+.button-group button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.button-group .preview {
+  background-color: #4caf50;
+  color: #fff;
+}
+.button-group .publish {
+  background-color: #2196f3;
+  color: #fff;
+}
+
+/* 全体のフォーム内要素 */
+.question-block {
+  background: #fafafa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+}
+
+/* テストアイテム */
+.test-item {
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.test-item.active {
+  background: #e0f0ff;
+  font-weight: bold;
+}
+.add-category {
+  padding: 10px;
+  color: #3f8efc;
+  cursor: pointer;
+}
+
+/* フッター固定 */
+footer {
+  margin-top: auto;
+  background: #f8f8f8;
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+}
+
+.save-btn, .delete-btn {
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.save-btn {
+  background-color: #3f8efc;
+  color: #fff;
+}
+.delete-btn {
+  background-color: #f44336;
+  color: #fff;
+}
+
+/* ラベルと入力欄 */
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+
+

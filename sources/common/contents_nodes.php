@@ -36,49 +36,41 @@ class cheader extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	public function display(){
-
-
-
-		$echo_str = <<< END_BLOCK
-
+	$echo_str = <<< END_BLOCK
 <!doctype html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PHPBase2サンプル</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="css/style.css">
-
-<div class="header">
-
-	<form class="search-bar" action="course_list.php" method="GET">
-		<div class="search-box">
-			<input type="text" placeholder="検索ワード">
-			<button type="submit">
-				<i class="fas fa-search fa-fw">🔍</i>
-			</button>
-		</div>
-	</form>
-
-	<div class="right">
-		<a href="http://150.95.36.201/~j2025b/admin" class="logo-button">管理者画面</a>                     <!-- これだけはまじで最後に消そう -->
-		<a href="common/login.php" class="logo-button">ロゴ</a>
-		<a href="common/login.php" class="icon profile-icon"><img src="./img/アイコン.png"  width="50px" ></a>
-	</div>
-</div>
-
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PHPBase2サンプル</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<!-- 全体コンテナ -->
-<div class="container">
+  <div class="contents"> <!-- sticky footer 用のラッパー -->
 
+    <header class="header">
+      <form class="search-bar" action="course_list.php" method="GET">
+        <div class="search-box">
+          <input type="text" placeholder="検索ワード" name="keyword">
+          <button type="submit">
+            <i class="fas fa-search fa-fw">🔍</i>
+          </button>
+        </div>
+      </form>
 
-</header>
+      <div class="right">
+        <a href="http://150.95.36.201/~j2025b/admin" class="logo-button">管理者画面</a>
+        <a href="common/login.php" class="logo-button">ロゴ</a>
+        <a href="common/login.php" class="icon profile-icon"><img src="./img/アイコン.png" width="50px" ></a>
+      </div>
+    </header>
+
+    <div class="container"> <!-- ここに各ページのコンテンツが入る -->
+
 END_BLOCK;
-		echo $echo_str;
-	}
+	echo $echo_str;
+}
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	デストラクタ
@@ -130,6 +122,7 @@ class cside_header extends cnode {
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
+<div class="contents"> <!-- ←追加 -->
 <!-- 全体コンテナ　-->
 <div class="container-fluid">
 <header class="navbar sticky-top bg-secondary-subtle flex-md-nowrap p-0 shadow" >
@@ -182,26 +175,26 @@ class cfooter extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	public function display(){
-		$echo_str = <<< END_BLOCK
-                                                             <!-- フッターここだよ -->
-<footer class="py-3 my-4 border-dark border-top">
-	<p class="text-center text-body-secondary">利用規約</p>
-	<p class="text-center text-body-secondary">プライバシーポリシー</p>
-	<p class="text-center text-body-secondary">会社概要</p>
-</footer>
+	$echo_str = <<< END_BLOCK
+    </div> <!-- .container -->
+    
+    <footer class="py-3 my-4 border-dark border-top">
+      <p class="text-center text-body-secondary">利用規約</p>
+      <p class="text-center text-body-secondary">プライバシーポリシー</p>
+      <p class="text-center text-body-secondary">会社概要</p>
+    </footer>
+  </div> <!-- .contents -->
 
-</div>
-<!-- /全体コンテナ　-->
-<div class="b-divider"></div>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
-<script src="js/scripts.js"></script>
+  <div class="b-divider"></div>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <script src="js/scripts.js"></script>
 </body>
 </html>
 END_BLOCK;
-		echo $echo_str;
-	}
+	echo $echo_str;
+}
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	デストラクタ
