@@ -10,22 +10,22 @@ require_once("../common/libs.php");
 // DB接続
 try {
     $pdo = new PDO('mysql:host=localhost;dbname=j2025bdb;charset=utf8', 'j2025bdb', '9yafMZ9YCfg1S16k!');
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+   // $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("DB接続エラー: " . $e->getMessage());
 }
 
 $test_list = [];
-
+/*
 // テスト一覧を取得
 global $DB_PDO;
 
 $stmt = $DB_PDO->prepare("SELECT * FROM tests ORDER BY test_id ASC");
 $stmt->execute();
 $tests = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+*/
 // JSに渡すためにJSON化
-echo "<script>const testsFromDB = " . json_encode($tests) . ";</script>";
+//echo "<script>const testsFromDB = " . json_encode($tests) . ";</script>";
 
 
 
