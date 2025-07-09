@@ -1,5 +1,5 @@
 <?php
-require 'vendor/autoload.php';
+require 'courseupload.php';
 
 putenv('GOOGLE_APPLICATION_CREDENTIALS=credentials.json');
 

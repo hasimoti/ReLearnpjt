@@ -327,11 +327,11 @@ END_BLOCK;
 
 
   <h2>動画アップロード</h2>
-<form id="uploadForm">
-  <input type="file" id="fileInput" name="file" accept="video/*" required />
-  <button type="submit">アップロード</button>
+<form action="movupload.php" method="post" enctype="multipart/form-data">
+  <label>動画を選択：</label>
+  <input type="file" name="file" required>
+  <input type="submit" value="アップロード">
 </form>
-<p id="result"></p>
 
 
 
