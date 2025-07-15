@@ -176,12 +176,16 @@ class cfooter extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	public function display(){
-	$echo_str = <<< END_BLOCK
+    $echo_str = <<< END_BLOCK
     </div> <!-- .container -->
     
     <footer class="py-3 my-4 border-dark border-top">
-      <p class="text-center text-body-secondary">利用規約</p>
-      <p class="text-center text-body-secondary">プライバシーポリシー</p>
+      <p class="text-center text-body-secondary">
+        <a href="terms.php" style="text-decoration:none;color:inherit;">利用規約</a>
+      </p>
+      <p class="text-center text-body-secondary">
+        <a href="privacy.php" style="text-decoration:none;color:inherit;">プライバシーポリシー</a>
+      </p>
       <p class="text-center text-body-secondary">会社概要</p>
     </footer>
   </div> <!-- .contents -->
@@ -194,7 +198,8 @@ class cfooter extends cnode {
 </body>
 </html>
 END_BLOCK;
-	echo $echo_str;
+    echo $echo_str;
+
 }
 	//--------------------------------------------------------------------------------------
 	/*!
