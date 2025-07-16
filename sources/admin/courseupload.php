@@ -159,6 +159,8 @@ class cmain_node extends cnode {
         $dataarr['video_url'] = (string)$_POST['video_url'];
         $dataarr['description'] = (string)$_POST['description'];
         $dataarr['category'] = (string)$_POST['category'];
+        $dataarr['created_at'] = date("Y-m-d H:i:s");
+        $dataarr['is_public'] = (int)$_POST['is_public'];
         if($course_id > 0){
             $where = 'course_id = :course_id';
             $wherearr[':course_id'] = (int)$course_id;
@@ -294,7 +296,12 @@ END_BLOCK;
   <input type="url" name="video_url" value="<?= htmlspecialchars($_POST['video_url']) ?>" required><br><br>
  <input type="hidden" name="func" value="set" />
  <input type="hidden" name="course_id" value="<?= $course_id; ?>" />
- <input type="submit" value="保存" class="btn btn-primary">
+ <input type="submit" value="保存" class="btn btn-primary"><br>
+ <label>公開状態</label><br>
+<select name="is_public">
+  <option value="1" <?= ($_POST['is_public'] ?? '1') == '1' ? 'selected' : '' ?>>公開</option>
+  <option value="0" <?= ($_POST['is_public'] ?? '1') == '0' ? 'selected' : '' ?>>非公開</option>
+</select><br><br>
 
 </form>
 </div>

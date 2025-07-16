@@ -7,7 +7,6 @@
 
 //ライブラリをインクルード
 require_once("common/libs.php");
-require_once("common/course.php");
 
 
 $err_array = array();
