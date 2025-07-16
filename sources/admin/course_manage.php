@@ -1,0 +1,60 @@
+<?php
+require_once("../common/libs.php");
+require_once("../common/contents_db.php");
+
+$keyword = $_GET['keyword'] ?? '';
+$course = new ccourse();
+$courses = $course->get_all(false); // false を渡すことで debug 無効
+$courses = $course_obj->search(false, $keyword);
+
+?>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>講座管理</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .card-title { font-weight: bold; }
+    .card { min-height: 200px; }
+    .course-actions a { margin-right: 10px; text-decoration: none; }
+    .course-actions a.text-danger { color: red; }
+  </style>
+</head>
+<body>
+  <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>講座管理</h2>
+      <a href="courseupload.php" class="btn btn-primary">＋ 新規講座を追加</a>
+    </div>
+
+    <!-- 検索フォーム -->
+<form method="GET" class="mb-4">
+  <input type="text" name="keyword" class="form-control" placeholder="講座名やカテゴリで検索"
+         value="<?= htmlspecialchars($_GET['keyword'] ?? '') ?>">
+</form>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <?php foreach ($courses as $c): ?>
+        <div class="col">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title"><?= htmlspecialchars($c['course_name']) ?></h5>
+              <p class="text-muted mb-1"><?= htmlspecialchars($c['category']) ?></p>
+              <p class="text-muted small mb-2">
+                <?= date('Y年n月j日', strtotime($c['created_at'] ?? '')) ?>　
+                <?= $c['is_public'] ? '公開' : '非公開' ?>
+              </p>
+              <div class="course-actions">
+                <a href="courseupload.php?pid=<?= $c['course_id'] ?>">編集</a>
+                <a href="delete_course.php?id=<?= $c['course_id'] ?>" class="text-danger">削除</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</body>
+</html>
