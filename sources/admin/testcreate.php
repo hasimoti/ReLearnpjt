@@ -7,28 +7,9 @@
 
 //ライブラリをインクルード
 require_once("../common/libs.php");
-// DB接続
-try {
-    $pdo = new PDO('mysql:host=localhost;dbname=j2025bdb;charset=utf8', 'j2025bdb', '9yafMZ9YCfg1S16k!');
-   // $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("DB接続エラー: " . $e->getMessage());
-}
+require_once("../common/contents_db.php");
 
 $test_list = [];
-/*
-// テスト一覧を取得
-global $DB_PDO;
-
-$stmt = $DB_PDO->prepare("SELECT * FROM tests ORDER BY test_id ASC");
-$stmt->execute();
-$tests = $stmt->fetchAll(PDO::FETCH_ASSOC);
-*/
-// JSに渡すためにJSON化
-//echo "<script>const testsFromDB = " . json_encode($tests) . ";</script>";
-
-
-
 $error = '';
 
 $err_array = array();
@@ -36,7 +17,7 @@ $err_flag = 0;
 $page_obj = null;
 //プライマリキー
 $question_id = 0;
-
+$test_id =0;
 //--------------------------------------------------------------------------------------
 ///	本体ノード
 //--------------------------------------------------------------------------------------
@@ -109,6 +90,7 @@ class cmain_node extends cnode {
 					else{
 						$this->regist();
 					}
+					break;
 				case 'conf':
 					//パラメータのチェック
 					$page_obj->paramchk();
@@ -168,10 +150,23 @@ class cmain_node extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	function regist(){
+		global $test_id;
 		global $question_id;
 		$change_obj = new crecord();
 		$dataarr = array();
-		$dataarr['question_name'] = (string)$_POST['question_name'];
+
+		$dataarr['test_id'] = (string)$_POST['test_id'];
+		$dataarr['test_name'] = (string)$_POST['test_name'];
+		$dataarr['time_limit'] = (string)$_POST['time_limit'];
+
+
+		$dataarr['question_id'] = (string)$_POST['question_id'];
+		$dataarr['question_text'] = (string)$_POST['question_text'];
+		$dataarr['type'] = (string)$_POST['type'];
+		$dataarr['explanation'] = (string)$_POST['explanation'];
+
+
+
 		if($question_id > 0){
 			$where = 'question_id = :question_id';
 			$wherearr[':question_id'] = (int)$question_id;

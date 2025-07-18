@@ -48,7 +48,9 @@ if ($keyword === '') {
               <h5 class="card-title"><?= htmlspecialchars($c['course_name']) ?></h5>
               <p class="text-muted mb-1"><?= htmlspecialchars($c['category']) ?></p>
               <p class="text-muted small mb-2">
+<<<<<<< HEAD
                 <?= date('Y年n月j日', strtotime($c['created_at'] ?? '')) ?>
+=======
                 <?= $c['is_public'] ? '公開' : '非公開' ?>
               </p>
               <div class="course-actions">

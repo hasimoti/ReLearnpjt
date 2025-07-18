@@ -5,10 +5,9 @@
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
 
-/////////////////////////////////////
+////////////////////////////////////
 
-require_once("node.php");
-require_once("libs.php");
+
 //--------------------------------------------------------------------------------------
 ///	ヘッダノード
 //--------------------------------------------------------------------------------------
@@ -37,41 +36,110 @@ class cheader extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	public function display(){
+
+
+
 		$echo_str = <<< END_BLOCK
+
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PHPBase2サンプル</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PHPBase2サンプル</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <div class="header">
+
+
+   
+
+	<form class="search-bar" action="search.html" method="GET">
+		<div class="search-box">
+		<input type="text" placeholder="検索ワード">
+		<button type="submit">
+			<i class="fas fa-search fa-fw">🔍</i>
+		</button>
+	</form>
+
+</div>
+	<a href="common/login.php" class="logo-button">ロゴ</a>
+    <a href="common/login.php" class="icon profile-icon">👤</a>
+  </div>
+
+
+
 </head>
 <body>
-  <div class="contents"> <!-- sticky footer 用のラッパー -->
+<!-- 全体コンテナ -->
+<div class="container">
 
-    <header class="header">
-      <form class="search-bar" action="course_list.php" method="GET">
-        <div class="search-box">
-          <input type="text" placeholder="検索ワード" name="keyword">
-          <button type="submit">
-            <i class="fas fa-search fa-fw">🔍</i>
-          </button>
-        </div>
-      </form>
+<div class="Thumbnail">
+		<img src="img/サムネサンプル.jpg" width="50px" >
+</div>
 
-      <div class="right">
-        <a href="http://150.95.36.201/~j2025b/admin/admin_login.php" class="logo-button">管理者画面</a>
-        <a href="common/login.php" class="logo-button">ロゴ</a>
-        <a href="common/login.php" class="icon profile-icon"><img src="./img/アイコン.png" width="50px" ></a>
-      </div>
-    </header>
 
-    <div class="container"> <!-- ここに各ページのコンテンツが入る -->
+<!-- ページ遷移のやつ -->
+<div class="pagination" id="pagination">
+  <!-- JavaScriptで描画されます -->
+</div>
+<script>
+  const totalPages = 3;
+  let currentPage = 1;
 
+  function renderPagination() {
+    const container = document.getElementById('pagination');
+    container.innerHTML = '';
+
+    const createLink = (text, page, isDisabled = false) => {
+      const link = document.createElement('a');
+      link.textContent = text;
+      if (!isDisabled) {
+        link.addEventListener('click', () => {
+          currentPage = page;
+          renderPagination();
+        });
+      } else {
+        link.classList.add('disabled');
+      }
+      return link;
+    };
+
+    // ＜前
+    container.appendChild(createLink('＜前', currentPage - 1, currentPage === 1));
+    container.appendChild(createSeparator());
+
+    // ページ番号
+    for (let i = 1; i <= totalPages; i++) {
+      const link = createLink(i, i);
+      if (i === currentPage) {
+        link.classList.add('active');
+      }
+      container.appendChild(link);
+      if (i < totalPages) {
+        container.appendChild(createSeparator());
+      }
+    }
+
+    container.appendChild(createSeparator());
+    // 次＞
+    container.appendChild(createLink('次＞', currentPage + 1, currentPage === totalPages));
+  }
+
+  function createSeparator() {
+    const sep = document.createElement('span');
+    sep.className = 'separator';
+    sep.textContent = '|';
+    return sep;
+  }
+
+  renderPagination();
+</script>
+</header>
 END_BLOCK;
-	echo $echo_str;
-}
+		echo $echo_str;
+	}
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	デストラクタ
@@ -123,7 +191,6 @@ class cside_header extends cnode {
 <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<div class="contents"> <!-- ←追加 -->
 <!-- 全体コンテナ　-->
 <div class="container-fluid">
 <header class="navbar sticky-top bg-secondary-subtle flex-md-nowrap p-0 shadow" >
@@ -176,31 +243,26 @@ class cfooter extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	public function display(){
-    $echo_str = <<< END_BLOCK
-    </div> <!-- .container -->
-    
-    <footer class="py-3 my-4 border-dark border-top">
-      <p class="text-center text-body-secondary">
-        <a href="terms.php" style="text-decoration:none;color:inherit;">利用規約</a>
-      </p>
-      <p class="text-center text-body-secondary">
-        <a href="privacy.php" style="text-decoration:none;color:inherit;">プライバシーポリシー</a>
-      </p>
-      <p class="text-center text-body-secondary">会社概要</p>
-    </footer>
-  </div> <!-- .contents -->
+		$echo_str = <<< END_BLOCK
+                                                             <!-- フッターここだよ -->
+<footer class="py-3 my-4 border-dark border-top">
+	<p class="text-center text-body-secondary">利用規約</p>
+	<p class="text-center text-body-secondary">プライバシーポリシー</p>
+	<p class="text-center text-body-secondary">会社概要</p>
+</footer>
 
-  <div class="b-divider"></div>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-  <script src="js/scripts.js"></script>
+</div>
+<!-- /全体コンテナ　-->
+<div class="b-divider"></div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
 </body>
 </html>
 END_BLOCK;
-    echo $echo_str;
-
-}
+		echo $echo_str;
+	}
 	//--------------------------------------------------------------------------------------
 	/*!
 	@brief	デストラクタ
@@ -212,6 +274,10 @@ END_BLOCK;
 	}
 }
 
+
+//--------------------------------------------------------------------------------------
+///	サイドバー付きフッターノード
+//--------------------------------------------------------------------------------------
 class cside_footer extends cnode {
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -429,3 +495,6 @@ class caddress extends cnode {
 		parent::__destruct();
 	}
 }
+
+
+
