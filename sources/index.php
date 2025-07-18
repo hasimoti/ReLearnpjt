@@ -54,12 +54,15 @@ class cmain_node extends cnode {
 
   <div class="Thumbnails">
     <div class="Thumbnail1">
-      <a href="course_list.php"><img src="./img/サムネサンプル.jpg" width="400px"></a>
-      <a href="prefecture_detail.php"><img src="./img/サムネ２.jpg" width="400px"></a>
+      <a href="course_detail2.php?cid=1"><img src="./img/サムネサンプル.jpg" width="400px"></a>  
+	  
+	  //cidのあとにIDを指定//
+
+      <a href="course_detail2.php?cid=4"><img src="./img/サムネ２.jpg" width="400px"></a>
     </div>
     <div class="Thumbnail2">
-      <a href="course_detail.php"><img src="./img/サムネ２.jpg" width="400px"></a>
-      <a href="prefecture_detail.php"><img src="./img/サムネ２.jpg" width="400px"></a>
+      <a href="course_detail2.php?cid=3"><img src="./img/サムネ２.jpg" width="400px"></a>
+      <a href="course_detail2.php?cid=2"><img src="./img/サムネ２.jpg" width="400px"></a>
     </div>
   </div>
 
