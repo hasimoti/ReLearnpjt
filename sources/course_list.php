@@ -103,6 +103,7 @@ foreach($courses as $course){
     echo '<p>' . htmlspecialchars($course['course_name']) . '</p>';
     if(!empty($course['video_url'])){
         // Google DriveやYouTubeのURLをiframeで埋め込み
+        
         if(strpos($course['video_url'], 'drive.google.com') !== false){
             // Google Drive
             $embed_url = preg_replace('/\/view\?usp=sharing$/', '/preview', $course['video_url']);

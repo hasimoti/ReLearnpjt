@@ -33,7 +33,7 @@ if (empty($_SESSION['is_admin'])) {
     <div class="header">
         <a href="admin_dashboard.php">ホーム</a>
         <a href="login_create.php">ログイン情報</a>
-        <a href="courseupload.php">講座管理</a>
+        <a href="course_manage.php">講座管理</a>
         <a href="testmanege.php">テスト管理</a>
     </div>
     <h1>管理者ダッシュボード</h1>
