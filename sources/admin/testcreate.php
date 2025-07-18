@@ -175,11 +175,11 @@ class cmain_node extends cnode {
 		if($question_id > 0){
 			$where = 'question_id = :question_id';
 			$wherearr[':question_id'] = (int)$question_id;
-			$change_obj->update_core(false,'question',$dataarr,$where,$wherearr,false);
+			$change_obj->update_core(false,'questions',$dataarr,$where,$wherearr,false);
 			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?pid=' . $question_id);
 		}
 		else{
-			$pid = $change_obj->insert_core(false,'question',$dataarr,false);
+			$pid = $change_obj->insert_core(false,'questions',$dataarr,false);
 			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?pid=' . $pid);
 		}
 

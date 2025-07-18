@@ -5,8 +5,16 @@
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
 
+
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
 //ライブラリをインクルード
 require_once("common/libs.php");
+
+ 
 
 //--------------------------------------------------------------------------------------
 ///	本体ノード
