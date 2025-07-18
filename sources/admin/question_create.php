@@ -1,6 +1,6 @@
 <?php
 /*!
-@file test_detail.php
+@file question_detail.php
 @brief 問題詳細
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
@@ -16,7 +16,7 @@ $err_array = array();
 $err_flag = 0;
 $page_obj = null;
 //プライマリキー
-$test_id = 0;
+$question_id = 0;
 $test_id =0;
 //--------------------------------------------------------------------------------------
 ///	本体ノード
@@ -31,19 +31,19 @@ class cmain_node extends cnode {
 		//親クラスのコンストラクタを呼ぶ
 		parent::__construct();
 		//プライマリキー
-		global $test_id;
+		global $question_id;
 		if(isset($_GET['pid']) 
 		//cutilクラスのメンバ関数をスタティック呼出
 			&& cutil::is_number($_GET['pid'])
 			&& $_GET['pid'] > 0){
-			$test_id = $_GET['pid'];
+			$question_id = $_GET['pid'];
 		}
 		//$_POST優先
-		if(isset($_POST['test_id']) 
+		if(isset($_POST['question_id']) 
 		//cutilクラスのメンバ関数をスタティック呼出
-			&& cutil::is_number($_POST['test_id'])
-			&& $_POST['test_id'] > 0){
-			$test_id = $_POST['test_id'];
+			&& cutil::is_number($_POST['question_id'])
+			&& $_POST['question_id'] > 0){
+			$question_id = $_POST['question_id'];
 		}
 	}
 	//--------------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ class cmain_node extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	public function post_default(){
-		cutil::post_default("test_name",'');
+		cutil::post_default("question_name",'');
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -74,7 +74,7 @@ class cmain_node extends cnode {
 		global $err_flag;
 		global $page_obj;
 		//プライマリキー
-		global $test_id;
+		global $question_id;
 		if(is_null($page_obj)){
 			echo 'ページが無効です';
 			exit();
@@ -109,10 +109,10 @@ class cmain_node extends cnode {
 			}
 		}
 		else{
-			if($test_id > 0){
-				$test_obj = new ctest();
+			if($question_id > 0){
+				$question_obj = new cquestion();
 				//$_POSTにデータを読み込む
-				$_POST = $test_obj->get_tgt(false,$test_id);
+				$_POST = $question_obj->get_tgt(false,$question_id);
 				if(cutil::array_chk($_POST)){
 					//データ取得成功
 					$_POST['func'] = 'edit';
@@ -139,7 +139,7 @@ class cmain_node extends cnode {
 		global $err_array;
 		global $err_flag;
 		/// 問題名の存在と空白チェック
-		if(cutil_ex::chkset_err_field($err_array,'test_name','問題名','isset_nl')){
+		if(cutil_ex::chkset_err_field($err_array,'question_name','問題名','isset_nl')){
 			$err_flag = 1;
 		}
 	}
@@ -151,47 +151,56 @@ class cmain_node extends cnode {
 	//--------------------------------------------------------------------------------------
 	function regist(){
 		global $test_id;
-		global $test_id;
+		global $question_id;
 		$change_obj = new crecord();
 		$dataarr = array();
 
 		$dataarr['test_id'] = (string)$_POST['test_id'];
 		$dataarr['test_name'] = (string)$_POST['test_name'];
 		$dataarr['time_limit'] = (string)$_POST['time_limit'];
-		if($test_id > 0){
-			$where = 'test_id = :test_id';
-			$wherearr[':test_id'] = (int)$test_id;
-			$change_obj->update_core(false,'test',$dataarr,$where,$wherearr,false);
-			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?pid=' . $test_id);
+
+
+		$dataarr['question_id'] = (string)$_POST['question_id'];
+		$dataarr['question_text'] = (string)$_POST['question_text'];
+		$dataarr['type'] = (string)$_POST['type'];
+		$dataarr['explanation'] = (string)$_POST['explanation'];
+
+
+
+		if($question_id > 0){
+			$where = 'question_id = :question_id';
+			$wherearr[':question_id'] = (int)$question_id;
+			$change_obj->update_core(false,'questions',$dataarr,$where,$wherearr,false);
+			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?pid=' . $question_id);
 		}
 		else{
-			$pid = $change_obj->insert_core(false,'tests',$dataarr,false);
+			$pid = $change_obj->insert_core(false,'questions',$dataarr,false);
 			cutil::redirect_exit($_SERVER['PHP_SELF'] . '?pid=' . $pid);
 		}
 
 		// ✅ ここから下に「問題＋選択肢 or 記述式」の保存処理を書く
 
 	// 問題は複数あるのでループ処理で
-	for ($i = 1; isset($_POST["test_$i"]); $i++) {
-		$test_text = $_POST["test_$i"];
+	for ($i = 1; isset($_POST["question_$i"]); $i++) {
+		$question_text = $_POST["question_$i"];
 		$type = $_POST["type_$i"];
 		$explain = $_POST["explain_$i"];
 
 		// 問題本体をINSERT
-		$test_data = array(
-			'test_text' => $test_text,
+		$question_data = array(
+			'question_text' => $question_text,
 			'type' => $type,
 			'explanation' => $explain,
-			'test_id' => $test_id
+			'test_id' => $question_id
 		);
-		$test_obj = new crecord();
-		$qid = $test_obj->insert_core(false, 'tests', $test_data, false);
+		$question_obj = new crecord();
+		$qid = $question_obj->insert_core(false, 'questions', $question_data, false);
 
 		if ($type === 'choice') {
 			$correct = $_POST["answer_$i"];
 			for ($j = 1; isset($_POST["choice_{$i}_$j"]); $j++) {
 				$choice_data = array(
-					'test_id' => $qid,
+					'question_id' => $qid,
 					'choice_text' => $_POST["choice_{$i}_$j"],
 					'is_correct' => ($correct == $j ? 1 : 0)
 				);
@@ -200,7 +209,7 @@ class cmain_node extends cnode {
 			}
 		} elseif ($type === 'text') {
 			$text_data = array(
-				'test_id' => $qid,
+				'question_id' => $qid,
 				'answer_text' => $_POST["answer_text_$i"]
 			);
 			$txt_obj = new crecord();
@@ -209,7 +218,7 @@ class cmain_node extends cnode {
 	}
 
 	// 完了後リダイレクト
-	cutil::redirect_exit($_SERVER['PHP_SELF'] . '?pid=' . $test_id);
+	cutil::redirect_exit($_SERVER['PHP_SELF'] . '?pid=' . $question_id);
 	}
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -243,13 +252,13 @@ END_BLOCK;
 	@return	問題ID
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_test_id_txt(){
-		global $test_id;
-		if($test_id <= 0){
+	function get_question_id_txt(){
+		global $question_id;
+		if($question_id <= 0){
 			return '新規';
 		}
 		else{
-			return $test_id;
+			return $question_id;
 		}
 	}
 	//--------------------------------------------------------------------------------------
@@ -258,14 +267,14 @@ END_BLOCK;
 	@return	問題コントロール
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_test_name(){
+	function get_question_name(){
 		global $err_array;
 		$ret_str = '';
-		$tgt = new ctextbox('test_name',$_POST['test_name'],'size="70"');
+		$tgt = new ctextbox('question_name',$_POST['question_name'],'size="70"');
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if(isset($err_array['test_name'])){
+		if(isset($err_array['question_name'])){
 			$ret_str .=  '<br /><span class="text-danger">' 
-			. cutil::ret2br($err_array['test_name']) 
+			. cutil::ret2br($err_array['question_name']) 
 			. '</span>';
 		}
 		return $ret_str;
@@ -278,11 +287,11 @@ END_BLOCK;
 	*/
 	//--------------------------------------------------------------------------------------
 	function get_switch(){
-		global $test_id;
+		global $question_id;
 		$ret_str = '';
 		if($_POST['func'] == 'conf'){
 			$button = '更新';
-			if($test_id <= 0){
+			if($question_id <= 0){
 				$button = '追加';
 			}
 			$ret_str =<<<END_BLOCK
@@ -307,7 +316,7 @@ END_BLOCK;
 	*/
 	//--------------------------------------------------------------------------------------
 	public function display(){
-		global $test_id;
+		global $question_id;
 //PHPブロック終了
 ?>
 <!-- コンテンツ　-->
@@ -316,7 +325,7 @@ END_BLOCK;
 	<?= $this->get_err_flag(); ?>
 	<h5><strong>問題詳細</strong></h5>
 	<form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
-		<a href="test_list.php">一覧に戻る</a>
+		<a href="question_list.php">一覧に戻る</a>
 
 
   		<div class="container">
@@ -340,11 +349,11 @@ END_BLOCK;
 				<h2>テスト作成</h2>
 				<form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post">
 					<div class="form">
-						<div class="test-list" id="testList">
+						<div class="question-list" id="questionList">
 						<!-- 問題ブロックがJSで追加される -->
 						</div>
 
-						<button type="button" class="add-test" onclick="addtest()">＋ 問題を追加</button>
+						<button type="button" class="add-question" onclick="addQuestion()">＋ 問題を追加</button>
 
 						<div class="button-group">
 							<button type="submit">下書き保存</button>
@@ -355,7 +364,7 @@ END_BLOCK;
 
 					<input type="hidden" name="func" value="" />
 					<input type="hidden" name="param" value="" />
-					<input type="hidden" name="test_id" value="<?= $test_id; ?>" />
+					<input type="hidden" name="question_id" value="<?= $question_id; ?>" />
 					<p class="text-center"><?= $this->get_switch(); ?></p>
 				</form>
 			</main>
@@ -366,31 +375,31 @@ END_BLOCK;
 
 <input type="hidden" name="func" value="" />
 <input type="hidden" name="param" value="" />
-<input type="hidden" name="test_id" value="<?= $test_id; ?>" />
+<input type="hidden" name="question_id" value="<?= $question_id; ?>" />
 <p class="text-center"><?= $this->get_switch(); ?></p>
 </form>
 
 
 <?php
-// データ取得（test_idベースなどに応じて変更）仮に$test_idで取得
-if ($test_id > 0) {
+// データ取得（test_idベースなどに応じて変更）仮に$question_idで取得
+if ($question_id > 0) {
     $pdo = cdb::connect();
-    $sql = "SELECT * FROM tests WHERE test_id = :test_id";
+    $sql = "SELECT * FROM questions WHERE test_id = :test_id";
     $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(':test_id', $test_id, PDO::PARAM_INT);
+    $stmt->bindValue(':test_id', $question_id, PDO::PARAM_INT);
     $stmt->execute();
-    $tests = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // 各質問に対して選択肢を取得
-    foreach ($tests as &$q) {
+    foreach ($questions as &$q) {
         if ($q['type'] === 'choice') {
-            $sql2 = "SELECT * FROM choices WHERE test_id = :qid";
+            $sql2 = "SELECT * FROM choices WHERE question_id = :qid";
             $stmt2 = $pdo->prepare($sql2);
             $stmt2->bindValue(':qid', $q['id'], PDO::PARAM_INT);
             $stmt2->execute();
             $q['choices'] = $stmt2->fetchAll(PDO::FETCH_ASSOC);
         } elseif ($q['type'] === 'text') {
-            $sql3 = "SELECT * FROM text_answers WHERE test_id = :qid";
+            $sql3 = "SELECT * FROM text_answers WHERE question_id = :qid";
             $stmt3 = $pdo->prepare($sql3);
             $stmt3->bindValue(':qid', $q['id'], PDO::PARAM_INT);
             $stmt3->execute();
@@ -399,9 +408,9 @@ if ($test_id > 0) {
     }
 
     // JSに渡すためにJSONに変換
-    echo "<script>const loadedtests = " . json_encode($tests) . ";</script>";
+    echo "<script>const loadedQuestions = " . json_encode($questions) . ";</script>";
 } else {
-    echo "<script>const loadedtests = [];</script>";
+    echo "<script>const loadedQuestions = [];</script>";
 }
 ?>
 
@@ -409,7 +418,7 @@ if ($test_id > 0) {
 
 
 <script>
-let testCount = 0;
+let questionCount = 0;
 let testIdCounter = 1;
 let selectedTestElement = null;
 
@@ -432,19 +441,19 @@ function showNewCategoryInput() {
       <option>15分</option>
     </select><br>
 
-    <div class="test-list" id="testList">
+    <div class="question-list" id="questionList">
       <!-- ここにJSで問題が追加される -->
     </div>
 
-    <button type="button" class="add-test" onclick="addtest()">＋ 問題を追加</button>
+    <button type="button" class="add-question" onclick="addQuestion()">＋ 問題を追加</button>
 
     <div class="button-group">
       <button onclick="addNewTest()">テスト追加</button>
     </div>
   `;
 
-  testCount = 0;
-  addtest(); // 最初の1問
+  questionCount = 0;
+  addQuestion(); // 最初の1問
 }
 
 //新規テスト作成
@@ -480,11 +489,11 @@ function selectTest(el) {
       <option>15分</option>
     </select><br>
 
-    <div class="test-list" id="testList">
+    <div class="question-list" id="questionList">
       <!-- ここにJSで問題が追加される -->
     </div>
 
-    <button type="button" class="add-test" onclick="addtest()">＋ 問題を追加</button>
+    <button type="button" class="add-question" onclick="addQuestion()">＋ 問題を追加</button>
 
     <div class="button-group">
       <button type="submit">下書き保存</button>
@@ -494,8 +503,8 @@ function selectTest(el) {
   `;
 
   // 既存または1問目を表示
-  testCount = 0;
-  addtest(); // 初期1問だけ追加、必要ならここでデータをロードして複数出す
+  questionCount = 0;
+  addQuestion(); // 初期1問だけ追加、必要ならここでデータをロードして複数出す
 }
 
 function saveAllTests() {
@@ -509,17 +518,17 @@ function saveAllTests() {
 let selectedTest = null;
 // ページ読み込み時に1問追加
 window.onload = () => {
-  if (loadedtests.length > 0) {
-    loadedtests.forEach((q, index) => {
-      testCount++;
-      const qNum = testCount;
+  if (loadedQuestions.length > 0) {
+    loadedQuestions.forEach((q, index) => {
+      questionCount++;
+      const qNum = questionCount;
 
       const qWrap = document.createElement('div');
-      qWrap.className = 'test-block';
+      qWrap.className = 'question-block';
       qWrap.innerHTML = `
         <hr>
         <label>問題${qNum}</label>
-        <input type="text" name="test_${qNum}" value="${q.test_text}">
+        <input type="text" name="question_${qNum}" value="${q.question_text}">
 
         <label>形式</label>
         <select name="type_${qNum}" onchange="toggleType(this, ${qNum})">
@@ -542,11 +551,11 @@ window.onload = () => {
         <input type="text" name="explain_${qNum}" value="${q.explanation || ''}">
       `;
 
-      document.getElementById('testList').appendChild(qWrap);
+      document.getElementById('questionList').appendChild(qWrap);
       choiceCount[qNum] = (q.choices?.length || 2);
     });
   } else {
-    addtest(); // 何もなければ1問だけ追加
+    addQuestion(); // 何もなければ1問だけ追加
   }
 
 // ✅ 初期表示では新規カテゴリを入力させる
@@ -555,66 +564,66 @@ window.onload = () => {
 };
 
 //新規テスト作成
-function addtest() {
-  testCount++;
+function addQuestion() {
+  questionCount++;
 
   const qWrap = document.createElement('div');
-  qWrap.className = 'test-block';
-  qWrap.id = `test_block_${testCount}`; // 削除用にID追加
+  qWrap.className = 'question-block';
+  qWrap.id = `question_block_${questionCount}`; // 削除用にID追加
 
   qWrap.innerHTML = `
     <hr>
-    <label>問題${testCount}</label>
-    <input type="text" name="test_${testCount}" placeholder="問題文を入力してください">
+    <label>問題${questionCount}</label>
+    <input type="text" name="question_${questionCount}" placeholder="問題文を入力してください">
 
     <label>形式</label>
-    <select name="type_${testCount}" onchange="toggleType(this, ${testCount})">
+    <select name="type_${questionCount}" onchange="toggleType(this, ${questionCount})">
       <option value="choice">選択式</option>
       <option value="text">記述式</option>
     </select>
 
-    <div class="choice-group" id="choice_${testCount}">
-      <div class="choices" id="choices_${testCount}">
-        ${generateChoiceHTML(testCount, 2)}
+    <div class="choice-group" id="choice_${questionCount}">
+      <div class="choices" id="choices_${questionCount}">
+        ${generateChoiceHTML(questionCount, 2)}
       </div>
-      <button type="button" onclick="addChoice(${testCount})">+ 選択肢を追加</button>
-      <button type="button" onclick="removeChoice(${testCount})">− 選択肢を削除</button>
+      <button type="button" onclick="addChoice(${questionCount})">+ 選択肢を追加</button>
+      <button type="button" onclick="removeChoice(${questionCount})">− 選択肢を削除</button>
     </div>
 
-    <div class="text-answer" id="text_${testCount}" style="display: none;">
+    <div class="text-answer" id="text_${questionCount}" style="display: none;">
       <label>記述式回答欄（ユーザーが記述）</label>
-      <textarea name="answer_text_${testCount}" rows="3" placeholder="回答例などを記述（任意）"></textarea>
+      <textarea name="answer_text_${questionCount}" rows="3" placeholder="回答例などを記述（任意）"></textarea>
     </div>
 
     <label>解説（任意）</label>
-    <input type="text" name="explain_${testCount}" placeholder="解説を入力（任意）">
+    <input type="text" name="explain_${questionCount}" placeholder="解説を入力（任意）">
 
     <!-- ✅ ここが追加される -->
     <div style="text-align: right; margin-top: 10px;">
-      <button type="button" onclick="removetest(${testCount})" style="color: red;">🗑 問題を削除</button>
+      <button type="button" onclick="removeQuestion(${questionCount})" style="color: red;">🗑 問題を削除</button>
     </div>
   `;
 
-  document.getElementById('testList').appendChild(qWrap);
-  choiceCount[testCount] = 2; // 初期は2択
+  document.getElementById('questionList').appendChild(qWrap);
+  choiceCount[questionCount] = 2; // 初期は2択
 }
 
 // 問題削除
-function removetest(qNum) {
-  const block = document.getElementById(`test_block_${qNum}`);
+function removeQuestion(qNum) {
+  const block = document.getElementById(`question_block_${qNum}`);
   if (block) {
     block.remove();
   }
 
   // 全ての問題ブロックを再取得
-  const blocks = document.querySelectorAll('.test-block');
-  testCount = blocks.length; // 再カウント
+  const blocks = document.querySelectorAll('.question-block');
+  questionCount = blocks.length; // 再カウント
 
   choiceCount = {}; // リセット
 
   blocks.forEach((block, index) => {
     const newNum = index + 1;
-    block.id = `test_block_${newNum}`;
+    block.id = `question_block_${newNum}`;
 
     // labelとinputの書き換え
     block.querySelectorAll("label").forEach(label => {
@@ -624,8 +633,8 @@ function removetest(qNum) {
     });
 
     // 再設定するinputやselectなど
-    const testInput = block.querySelector(`input[name^="test_"]`);
-    if (testInput) testInput.name = `test_${newNum}`;
+    const questionInput = block.querySelector(`input[name^="question_"]`);
+    if (questionInput) questionInput.name = `question_${newNum}`;
 
     const typeSelect = block.querySelector(`select[name^="type_"]`);
     if (typeSelect) {
@@ -664,8 +673,8 @@ function removetest(qNum) {
     }
 
     // 削除ボタンの関数も更新
-    const deleteBtn = block.querySelector('button[onclick^="removetest"]');
-    if (deleteBtn) deleteBtn.setAttribute("onclick", `removetest(${newNum})`);
+    const deleteBtn = block.querySelector('button[onclick^="removeQuestion"]');
+    if (deleteBtn) deleteBtn.setAttribute("onclick", `removeQuestion(${newNum})`);
   });
 }
 
