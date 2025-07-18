@@ -2,10 +2,15 @@
 require_once("../common/libs.php");
 require_once("../common/contents_db.php");
 
-$keyword = $_GET['keyword'] ?? '';
-$course = new ccourse();
-$courses = $course->get_all(false); // false を渡すことで debug 無効
-$courses = $course_obj->search(false, $keyword);
+$keyword = isset($_GET['keyword']) ? trim($_GET['keyword']) : '';
+$course_obj = new ccourse();
+
+if ($keyword === '') {
+    $courses = $course_obj->get_all(false); // 全件取得
+} else {
+    $courses = $course_obj->search(false, $keyword); // 検索実行
+}
+
 
 ?>
 
