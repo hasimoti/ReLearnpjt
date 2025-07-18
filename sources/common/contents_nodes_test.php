@@ -176,16 +176,12 @@ class cfooter extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	public function display(){
-    $echo_str = <<< END_BLOCK
+	$echo_str = <<< END_BLOCK
     </div> <!-- .container -->
     
     <footer class="py-3 my-4 border-dark border-top">
-      <p class="text-center text-body-secondary">
-        <a href="terms.php" style="text-decoration:none;color:inherit;">利用規約</a>
-      </p>
-      <p class="text-center text-body-secondary">
-        <a href="privacy.php" style="text-decoration:none;color:inherit;">プライバシーポリシー</a>
-      </p>
+      <p class="text-center text-body-secondary">利用規約</p>
+      <p class="text-center text-body-secondary">プライバシーポリシー</p>
       <p class="text-center text-body-secondary">会社概要</p>
     </footer>
   </div> <!-- .contents -->
@@ -195,11 +191,34 @@ class cfooter extends cnode {
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
   <script src="js/scripts.js"></script>
+
+<!-- その他動画はこちらボタン -->
+<a href="videos_list.php" class="more-videos-btn">その他動画はこちら</a>
+
+<style>
+.more-videos-btn {
+    position: fixed;
+    bottom: 80px; /* フッターと被らないように調整 */
+    right: 20px;
+    padding: 12px 20px;
+    background-color: #007BFF;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+    z-index: 1000;
+}
+.more-videos-btn:hover {
+    background-color: #0056b3;
+}
+</style>
+
 </body>
 </html>
 END_BLOCK;
-    echo $echo_str;
-
+	echo $echo_str;
 }
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -251,6 +270,30 @@ class cside_footer extends cnode {
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
+
+<!-- その他動画はこちらボタン -->
+<a href="videos_list.php" class="more-videos-btn">その他動画はこちら</a>
+
+<style>
+.more-videos-btn {
+    position: fixed;
+    bottom: 80px; /* フッターと被らないように調整 */
+    right: 20px;
+    padding: 12px 20px;
+    background-color: #007BFF;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+    z-index: 1000;
+}
+.more-videos-btn:hover {
+    background-color: #0056b3;
+}
+</style>
+
 </body>
 </html>
 END_BLOCK;

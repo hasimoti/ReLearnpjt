@@ -42,24 +42,32 @@ class cmain_node extends cnode {
 
 <!-- コンテンツ　-->
 <div class="contents">
-  <h5><strong>メインメニュー</strong></h5>
+<h5><strong>メインメニュー</strong></h5>
+<table class="table table-bordered">
+<thead>
 
-  <div class="Thumbnails">
-    <div class="Thumbnail1">
-      <a href="course_list.php"><img src="./img/サムネサンプル.jpg" width="400px"></a>
-      <a href="prefecture_detail.php"><img src="./img/サムネ２.jpg" width="400px"></a>
-    </div>
-    <div class="Thumbnail2">
-      <a href="course_detail.php"><img src="./img/サムネ２.jpg" width="400px"></a>
-      <a href="prefecture_detail.php"><img src="./img/サムネ２.jpg" width="400px"></a>
-    </div>
-  </div>
+</thead>
+<tbody>
 
- <div style="text-align: right; margin-top: 20px;">
-    <a href="course_list.php">その他動画はこちらから</a>
+
+</tbody><div class="Thumbnails">
+	<div class="Thumbnail1">
+			<a href="course_list.php"><img src="./img/サムネサンプル.jpg" width="400px" >
+			<a href="prefecture_detail.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
+	</div>
+	<div class="Thumbnail2">
+			<a href="course_detail.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
+			<a href="prefecture_detail.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
+
+	</div>
+</div>
+</table>
+
+<div style="text-align: right; margin-top: 20px;">
+    <a href="other_videos.php">その他動画はこちらから</a>
   </div>
 </div>
-<!-- /コンテンツ-->
+<!-- /コンテンツ　-->
 END_BLOCK;
 		echo $echo_str;
 
