@@ -69,7 +69,7 @@ class cmain_node extends cnode {
 			$where = 'question_id = :question_id';
 			$wherearr[':question_id'] = (int)$_POST['param'];
 			$change_obj = new crecord();
-			$change_obj->delete_core(false,'question',$where,$wherearr,false);
+			$change_obj->delete_core(false,'questions',$where,$wherearr,false);
 		}
 	}
 	//--------------------------------------------------------------------------------------

@@ -34,7 +34,7 @@ class cquestion extends crecord {
 select
 count(*)
 from
-question
+questions
 where
 1
 END_BLOCK;
@@ -70,7 +70,7 @@ END_BLOCK;
 select
 *
 from
-question
+questions
 where
 1
 order by
@@ -112,7 +112,7 @@ END_BLOCK;
 select
 *
 from
-question
+questions
 where
 question_id = :question_id
 END_BLOCK;
