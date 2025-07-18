@@ -50,8 +50,11 @@ class cmain_node extends cnode {
 
 <!-- コンテンツ　-->
 <div class="contents">
-  <h5><strong>メインメニュー</strong></h5>
+<h5><strong>メインメニュー</strong></h5>
+<table class="table table-bordered">
+<thead>
 
+<<<<<<< HEAD
   <div class="Thumbnails">
     <div class="Thumbnail1">
       <a href="course_detail2.php?cid=1"><img src="./img/サムネサンプル.jpg" width="400px"></a>  
@@ -65,12 +68,22 @@ class cmain_node extends cnode {
       <a href="course_detail2.php?cid=2"><img src="./img/サムネ２.jpg" width="400px"></a>
     </div>
   </div>
+=======
 
- <div style="text-align: right; margin-top: 20px;">
-    <a href="course_list.php">その他動画はこちらから</a>
-  </div>
+
+</tbody><div class="Thumbnails">
+	<div class="Thumbnail1">
+			<a href="course_list.php"><img src="./img/サムネサンプル.jpg" width="400px" >
+			<a href="prefecture_detail.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
+	</div>
+	<div class="Thumbnail2">
+			<a href="course_detail.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
+			<a href="prefecture_detail.php"> <img src="./img/サムネ２.jpg"  width="400px" ></a>
+	</div>
 </div>
-<!-- /コンテンツ-->
+</table>
+</div>
+<!-- /コンテンツ　-->
 END_BLOCK;
 		echo $echo_str;
 
@@ -101,5 +114,3 @@ $page_obj->display();
 
 
 ?>
-
-

@@ -5,10 +5,9 @@
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
 
-/////////////////////////////////////
+////////////////////////////////////
 
-require_once("node.php");
-require_once("libs.php");
+
 //--------------------------------------------------------------------------------------
 ///	ヘッダノード
 //--------------------------------------------------------------------------------------
@@ -37,7 +36,7 @@ class cheader extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	public function display(){
-		$echo_str = <<< END_BLOCK
+	$echo_str = <<< END_BLOCK
 <!doctype html>
 <html lang="ja">
 <head>
@@ -176,16 +175,12 @@ class cfooter extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	public function display(){
-    $echo_str = <<< END_BLOCK
+	$echo_str = <<< END_BLOCK
     </div> <!-- .container -->
     
     <footer class="py-3 my-4 border-dark border-top">
-      <p class="text-center text-body-secondary">
-        <a href="terms.php" style="text-decoration:none;color:inherit;">利用規約</a>
-      </p>
-      <p class="text-center text-body-secondary">
-        <a href="privacy.php" style="text-decoration:none;color:inherit;">プライバシーポリシー</a>
-      </p>
+      <p class="text-center text-body-secondary">利用規約</p>
+      <p class="text-center text-body-secondary">プライバシーポリシー</p>
       <p class="text-center text-body-secondary">会社概要</p>
     </footer>
   </div> <!-- .contents -->
@@ -198,8 +193,7 @@ class cfooter extends cnode {
 </body>
 </html>
 END_BLOCK;
-    echo $echo_str;
-
+	echo $echo_str;
 }
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -212,6 +206,10 @@ END_BLOCK;
 	}
 }
 
+
+//--------------------------------------------------------------------------------------
+///	サイドバー付きフッターノード
+//--------------------------------------------------------------------------------------
 class cside_footer extends cnode {
 	//--------------------------------------------------------------------------------------
 	/*!
@@ -300,8 +298,8 @@ class caddress extends cnode {
 		if(cutil_ex::chkset_err_field($err_array,"{$this->param_arr['cntl_header_name']}_name","{$this->param_arr['head']}名",'isset_nl')){
 			$err_flag = 1;
 		}
-		/// 都道府県チェック
-		if(cutil_ex::chkset_err_field($err_array,"{$this->param_arr['cntl_header_name']}_prefecture_id","{$this->param_arr['head']}都道府県",'isset_num_range',1,47)){
+		/// 問題チェック
+		if(cutil_ex::chkset_err_field($err_array,"{$this->param_arr['cntl_header_name']}_question_id","{$this->param_arr['head']}問題",'isset_num_range',1,47)){
 			$err_flag = 1;
 		}
 		/// 住所の存在と空白チェック
@@ -324,7 +322,7 @@ class caddress extends cnode {
 	*/
 	//--------------------------------------------------------------------------------------
 	public function post_default(){
-		cutil::post_default("{$this->param_arr['cntl_header_name']}_prefecture_id",0);
+		cutil::post_default("{$this->param_arr['cntl_header_name']}_question_id",0);
 		cutil::post_default("{$this->param_arr['cntl_header_name']}_name",'');
 		cutil::post_default("{$this->param_arr['cntl_header_name']}_address",'');
 	}
@@ -350,26 +348,26 @@ class caddress extends cnode {
 
 	//--------------------------------------------------------------------------------------
 	/*!
-	@brief	都道府県プルダウンの取得
-	@return	都道府県プルダウン文字列
+	@brief	問題プルダウンの取得
+	@return	問題プルダウン文字列
 	*/
 	//--------------------------------------------------------------------------------------
-	function get_prefecture_select(){
+	function get_question_select(){
 		global $err_array;
-		//都道府県の一覧を取得
-		$prefecture_obj = new cprefecture();
-		$allcount = $prefecture_obj->get_all_count(false);
-		$prefecture_rows = $prefecture_obj->get_all(false,0,$allcount);
-		$tgt = new cselect("{$this->param_arr['cntl_header_name']}_prefecture_id");
-		$tgt->add(0,'選択してください',$_POST["{$this->param_arr['cntl_header_name']}_prefecture_id"] == 0);
-		foreach($prefecture_rows as $key => $val){
-			$tgt->add($val['prefecture_id'],$val['prefecture_name'],
-			$val['prefecture_id'] == $_POST["{$this->param_arr['cntl_header_name']}_prefecture_id"]);
+		//問題の一覧を取得
+		$question_obj = new cquestion();
+		$allcount = $question_obj->get_all_count(false);
+		$question_rows = $question_obj->get_all(false,0,$allcount);
+		$tgt = new cselect("{$this->param_arr['cntl_header_name']}_question_id");
+		$tgt->add(0,'選択してください',$_POST["{$this->param_arr['cntl_header_name']}_question_id"] == 0);
+		foreach($question_rows as $key => $val){
+			$tgt->add($val['question_id'],$val['question_name'],
+			$val['question_id'] == $_POST["{$this->param_arr['cntl_header_name']}_question_id"]);
 		}
 		$ret_str = $tgt->get($_POST['func'] == 'conf');
-		if(isset($err_array["{$this->param_arr['cntl_header_name']}_prefecture_id"])){
+		if(isset($err_array["{$this->param_arr['cntl_header_name']}_question_id"])){
 			$ret_str .=  '<br /><span class="text-danger">' 
-			. cutil::ret2br($err_array["{$this->param_arr['cntl_header_name']}_prefecture_id"]) 
+			. cutil::ret2br($err_array["{$this->param_arr['cntl_header_name']}_question_id"]) 
 			. '</span>';
 		}
 		return $ret_str;
@@ -400,7 +398,7 @@ class caddress extends cnode {
 	//--------------------------------------------------------------------------------------
 	public function display(){
 		$name_str = "{$this->param_arr['head']}名";
-		$prefec_str = "{$this->param_arr['head']}都道府県";
+		$prefec_str = "{$this->param_arr['head']}問題";
 		$address_str = "{$this->param_arr['head']}市区郡町村以下";
 //PHPブロック終了
 ?>
@@ -410,7 +408,7 @@ class caddress extends cnode {
 </tr>
 <tr>
 <th class="text-center"><?= $prefec_str ?></th>
-<td width="70%"><?= $this->get_prefecture_select(); ?></td>
+<td width="70%"><?= $this->get_question_select(); ?></td>
 </tr>
 <tr>
 <th class="text-center"><?= $address_str ?></th>
@@ -429,3 +427,6 @@ class caddress extends cnode {
 		parent::__destruct();
 	}
 }
+
+
+
