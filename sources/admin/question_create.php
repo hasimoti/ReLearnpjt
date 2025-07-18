@@ -323,27 +323,11 @@ END_BLOCK;
  <link rel="stylesheet" href="../css/test_create.css">
 <div class="container">
 	<?= $this->get_err_flag(); ?>
-	<h5><strong>問題詳細</strong></h5>
 	<form name="form1" action="<?= $_SERVER['PHP_SELF']; ?>" method="post" >
 		<a href="question_list.php">一覧に戻る</a>
 
 
   		<div class="container">
-			<aside class="sidebar">
-				<!-- サイドバー -->
-				<h3>テスト一覧</h3>
-				<ul id="testList">
-					<li class="test-item active" onclick="selectTest(this)">入社初日マナーテスト</li>
-				</ul>
-
-				<div id="newCategoryArea"></div>
-				<li class="add-category" onclick="showNewCategoryInput()">＋ 新規カテゴリ</li>
-
-				<div class="sidebar-footer">
-					<button class="save-btn" onclick="saveAllTests()">保存</button>
-					<button class="delete-btn">削除</button>
-				</div>
-			</aside>
 
 			<main class="content">
 				<h2>テスト作成</h2>
@@ -447,9 +431,7 @@ function showNewCategoryInput() {
 
     <button type="button" class="add-question" onclick="addQuestion()">＋ 問題を追加</button>
 
-    <div class="button-group">
-      <button onclick="addNewTest()">テスト追加</button>
-    </div>
+    <input type="submit" value="テスト保存" class="btn btn-primary"><br>
   `;
 
   questionCount = 0;
@@ -768,8 +750,6 @@ function generateChoiceHTMLFromDB(qNum, choices) {
 
 //ページを作成
 $page_obj = new cnode();
-//ヘッダ追加
-$page_obj->add_child(cutil::create('cheader'));
 //本体追加
 $page_obj->add_child($main_obj = cutil::create('cmain_node'));
 //フッタ追加

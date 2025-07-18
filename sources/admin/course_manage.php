@@ -20,11 +20,35 @@ if ($keyword === '') {
   <meta charset="UTF-8">
   <title>講座管理</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <div class="header">
+        <a href="admin_dashboard.php">ホーム</a>
+        <a href="login_create.php">ログイン情報</a>
+        <a href="courseupload.php">講座管理</a>
+        <a href="testmanege.php">テスト管理</a>
+    </div>
   <style>
     .card-title { font-weight: bold; }
     .card { min-height: 200px; }
     .course-actions a { margin-right: 10px; text-decoration: none; }
     .course-actions a.text-danger { color: red; }
+
+
+    .header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            background: #fff;
+            padding: 10px 20px;
+        }
+        .header a {
+            color: #000;
+            text-decoration: none;
+            margin-left: 30px;
+            font-weight: bold;
+        }
+        .header a:hover {
+            text-decoration: underline;
+        }
   </style>
 </head>
 <body>
@@ -48,9 +72,9 @@ if ($keyword === '') {
               <h5 class="card-title"><?= htmlspecialchars($c['course_name']) ?></h5>
               <p class="text-muted mb-1"><?= htmlspecialchars($c['category']) ?></p>
               <p class="text-muted small mb-2">
-<<<<<<< HEAD
+
                 <?= date('Y年n月j日', strtotime($c['created_at'] ?? '')) ?>
-=======
+
                 <?= $c['is_public'] ? '公開' : '非公開' ?>
               </p>
               <div class="course-actions">
