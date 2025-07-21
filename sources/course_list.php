@@ -5,7 +5,7 @@
 @copyright Copyright (c) 2024 Yamanoi Yasushi.
 */
 
-//ライブラリをインクルード
+//ライブラリをインクルード//
 require_once("common/libs.php");
 
 
